@@ -38,7 +38,6 @@ function displayMap(){//Permet d'afficher la map
 function locationLoad()//Permet de charger et d'afficher les points contenus dans la BDD
 {      
         //Ici, ajouter une fonction qui récupère les points dans la BDD et les charge sur la MAP
-        if (fireMarkerLayerGroup != undefined)resetLocations(fireMarkerLayerGroup);
         fireMarkerLayerGroup = L.layerGroup().addTo(mymap);
         $.get("/loadFireLocation", function(data) {//Permet de récupérer les points dans la BDD en JSON
                 var str = data.toString().substring(1);
@@ -55,15 +54,12 @@ function locationLoad()//Permet de charger et d'afficher les points contenus dan
                         addLocation(parseFloat(coordinates[0]),parseFloat(coordinates[1]),"Feu n° "+(i+1),"<br>"+stringCoord1+"</br>"+"<br>"+stringCoord2+"</br>",fireMarkerLayerGroup,fireIcon);
                 }
         })
-        
-
 }
 
 //Ajoute un marqueur à un point défini avec un popup, une icon personnalisé et accroché à une couche spécifique
 function addLocation(pointA, pointB, boldText, simpleText,layerGroup,markerIcon)
 {
         var marqueur = L.marker([pointA,pointB],{icon : markerIcon}).addTo(layerGroup);
-        console.log("Checkpoint : Marqueur ajouté");
         if (boldText == undefined)boldText = "";
         if (simpleText == undefined)simpleText = "";
         var message = '<b>'+boldText+'</b><br>'+simpleText+'</br>';

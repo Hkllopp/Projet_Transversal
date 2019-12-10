@@ -1,7 +1,7 @@
 <html lang="fr">
   <head>
     <meta charset="utf-8">
-    <title>Vue des feux</title>
+    <title>Vue de la caserne</title>
     <meta name="description" content="Ceci est une description">
     <meta name="author" content="Le meilleur groupe">
 
@@ -18,13 +18,15 @@
   </head>
 
   <body>
-    <h1>D'ici, vous pouvez observer tous les feux qui se déclarent.</h1>
-      <div id="mapid"></div>
-      <div>
-        <button onclick="locationLoad()" id="loadMarkersButton">Actualiser les feux</button>
-        <button onclick="resetLocations()" id="resetMarkersButton">Effacer tous les marqueurs de la carte</button>
-      </div>
-      
+    <h1>D'ici, vous pouvez observer tous les feux que les pompiers on répertorié et regarder où sont les camions.</h1>
+    <div id="mapid"></div>
+    <button onclick="locationLoad()" id="loadMarkersButton">Actualiser les marqueurs suivants</button>
+    <select name="markers" size="1" id="markersLayerSelection">
+        <option value="both">Les feux et les camions</option>
+        <option value="fire">Les feux seulement</option>
+        <option value="truck">Les camions seulement</option>
+        </select>
+        <button onclick="resetLocations()" id="resetMarkersButton">Supprimer les marqueurs de la carte</button>
       <script>displayMap()</script>
   </body>
 </html>
