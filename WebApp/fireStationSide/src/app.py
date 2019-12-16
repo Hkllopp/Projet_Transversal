@@ -1,8 +1,14 @@
 from flask import Flask, jsonify, abort, make_response, render_template
 import psycopg2
 from influxdb import InfluxDBClient
+from werkzeug.middleware.dispatcher import DispatcherMiddleware
+from prometheus_client import make_wsgi_app
 
 """
+/!\ Avant de coder dans l'app, il faut rentrer dans l'environnement virtuel.
+Sur Windows :./venv/Scripts/activate
+Sur Linux :. venv/bin/activate
+
 Le but de cette application est de :
     X   - Récupérer les données de feu de l'UART via un script python et les insérer dans la BDD
     V   - Afficher les objets feu et camions de pompier inscrits dans la BDD
@@ -24,8 +30,8 @@ Les packages du venv:
 
 app = Flask(__name__)
 
-#Permet d'aller sur la page de visualisation des feux
-#127.0.0.1:5000/todo/api/v1.0/showfire
+# Permet d'aller sur la page de visualisation des feux
+# 127.0.0.1:5000/todo/api/v1.0/showfire
 @app.route('/todo/api/v1.0/showfire', methods=['GET'])
 def showfire():
     print("Map chargée")
@@ -42,7 +48,7 @@ def get_fire_data():
     connection.close()
     return fire_records
 
-#Permet de récupérer les points de camions et de les redonner au js
+# Permet de récupérer les points de camions et de les redonner au js
 @app.route('/loadTruckLocation')
 def get_truck_data():
     connection = psycopg2.connect(user = "postgres",password = "superuser",host ="localhost",port = "5433",database = "Caserne")#/!\ C'est ici que ca coince, le port est bien 5433,pas 5432
@@ -54,8 +60,8 @@ def get_truck_data():
     connection.close()
     return truck_records
 
-#Permet aux scrapers de l'influxDB de récupérer régulièrement les données
-#127.0.0.1:5000/todo/api/v1.0/promGetFire
+# Permet aux scrapers de l'influxDB de récupérer régulièrement les données
+# 127.0.0.1:5000/todo/api/v1.0/promGetFire
 @app.route('/todo/api/v1.0/promGetFire')
 def sendFireData():
     connection = psycopg2.connect(user = "postgres",password = "superuser",host ="localhost",port = "5433",database = "Caserne")#/!\ C'est ici que ca coince, le port est bien 5433,pas 5432
@@ -69,6 +75,11 @@ def sendFireData():
     client.write_points(data)
     result = client.query('select value from cpu_load_short;')
     print("Result: {0}".format(result))
+
+# Add prometheus wsgi middleware to route /metrics requests
+app_dispatch = DispatcherMiddleware(app, {
+    '/metrics': make_wsgi_app()
+})
 
 
 if __name__ == '__main__':
