@@ -8,6 +8,8 @@
 #include "extdrv/cc1101.h"
 #include "extdrv/status_led.h"
 #include "drivers/i2c.h"
+#define ECB 1
+#include "aes.h"
 
 
 #define MODULE_VERSION  0x03
@@ -21,12 +23,13 @@
 
 #define DEBUG 1
 #define BUFF_LEN 60
-#define RF_BUFF_LEN  62 // taille du buffer
+#define RF_BUFF_LEN  32 // taille du buffer
 
 #define SELECTED_FREQ  FREQ_SEL_48MHz
 #define DEVICE_ADDRESS  0xBA /* Addresses 0x00 and 0xFF are broadcast */
 #define NEIGHBOR_ADDRESS 0xAB /* Address of the associated device */
-
+//clé AES 128
+uint8_t key[16] = { (uint8_t) 0x2b, (uint8_t) 0x7e, (uint8_t) 0x15, (uint8_t) 0x16, (uint8_t) 0x28, (uint8_t) 0xae, (uint8_t) 0xd2, (uint8_t) 0xa6, (uint8_t) 0xab, (uint8_t) 0xf7, (uint8_t) 0x15, (uint8_t) 0x88, (uint8_t) 0x09, (uint8_t) 0xcf, (uint8_t) 0x4f, (uint8_t) 0x3c };
 
 /***************************************************************************** */
 /* Pins configuration */
@@ -59,6 +62,8 @@ static volatile uint8_t buffer_send[RF_BUFF_LEN] = "";
 
 static volatile uint32_t cc_tx = 0;
 static volatile uint8_t cc_ptr = 0;
+
+
 
 void handle_uart_cmd(uint8_t c)
 {
@@ -127,20 +132,40 @@ void rf_config(void)
 
 void handle_rf_rx_data(void)
 {
-    uint8_t data[RF_BUFF_LEN];
+    uint8_t data[BUFF_LEN];
     int8_t ret = 0;
     uint8_t status = 0;
+    uint32_t nombreDechiffre = 0;
+    struct AES_ctx ctx;
+    AES_init_ctx(&ctx,key);
+
 
     /* Check for received packet (and get it if any) */
-    ret = cc1101_receive_packet(data, RF_BUFF_LEN, &status);
-    /* Go back to RX mode */
-    cc1101_enter_rx_mode();
-    memcpy(&buffer_receive,&data[2],sizeof(buffer_receive));
+    ret = cc1101_receive_packet(data, BUFF_LEN, &status);
+
+  
+   	cc1101_enter_rx_mode();
+   	//check de l'adresse source
+   	if (data[34] == 171)
+   	{
+   		memcpy(&buffer_receive,&data[2],sizeof(buffer_receive));
+    	for (int i = 0; i < 2; ++i)
+    	{
+    		AES_ECB_decrypt(&ctx,buffer_receive+(i*16));
+    	}
+    	uprintf(UART0, "%s\n", (char*)&buffer_receive);	
+   	}else{
+   		for (int i = 0; i < sizeof(data); ++i)
+   		{
+   			uprintf(UART0,"%d : %X \n",i,data[i]);
+   		}
+   		
+   	}
+   
 #ifdef DEBUG
     /*uprintf(UART0, "RF: ret:%d, st: %d.\n\r", ret, status);
     uprintf(UART0, "RF: data lenght: %d.\n\r", data[0]);
     uprintf(UART0, "RF: destination: %x.\n\r", data[1]);*/
-    uprintf(UART0, "%s\n", (char*)&data[2]);
     
 #endif
 }
