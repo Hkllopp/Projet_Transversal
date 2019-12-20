@@ -64,6 +64,16 @@ static volatile uint32_t cc_tx = 0;
 static volatile uint8_t cc_ptr = 0;
 
 
+char checksum(char* s)
+{
+	signed char sum = -1;
+	while (*s != 0)
+	{
+		sum += *s;
+		s++;
+	}
+	return sum;
+}
 
 void handle_uart_cmd(uint8_t c)
 {
@@ -146,14 +156,25 @@ void handle_rf_rx_data(void)
   
    	cc1101_enter_rx_mode();
    	//check de l'adresse source
-   	if (data[34] == 171)
+   	if (data[34] == NEIGHBOR_ADDRESS)
    	{
+   		//copie du payload chiffré en mémoire
    		memcpy(&buffer_receive,&data[2],sizeof(buffer_receive));
+
+   		//déchiffrement AES et stockage dans buffer_receive
     	for (int i = 0; i < 2; ++i)
     	{
     		AES_ECB_decrypt(&ctx,buffer_receive+(i*16));
     	}
-    	uprintf(UART0, "%s\n", (char*)&buffer_receive);	
+
+    	//calcul du checksum 
+    	if (checksum(buffer_receive)==data[35])
+    	{
+    		uprintf(UART0, "CRC OK: %d\n", data[35]);
+    		uprintf(UART0, "%s\n", (char*)&buffer_receive);	
+	
+    	}
+    	
    	}else{
    		for (int i = 0; i < sizeof(data); ++i)
    		{
