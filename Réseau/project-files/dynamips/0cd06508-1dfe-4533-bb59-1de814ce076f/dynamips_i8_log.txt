@@ -1,0 +1,57 @@
+Dec 05 21:33:51.995 HYPERVISOR: Release 0.2.17-x86/Windows (tag 2017072410)
+Dec 05 21:33:51.996 HYPERVISOR: Started on IP = localhost, TCP port = 59539.
+Dec 05 21:33:52.470 HYPERVISOR: exec_cmd: hypervisor version 
+Dec 05 21:33:52.471 HYPERVISOR: exec_cmd: hypervisor working_dir D:\CPE\IRC4\Projet transversal\réseau\Projet transversal\project-files\dynamips 
+Dec 05 21:33:52.471 GENERAL: working_dir=D:\CPE\IRC4\Projet transversal\réseau\Projet transversal\project-files\dynamips
+Dec 05 21:33:52.471 HYPERVISOR: exec_cmd: hypervisor working_dir D:\CPE\IRC4\Projet transversal\réseau\Projet transversal\project-files\dynamips\0cd06508-1dfe-4533-bb59-1de814ce076f 
+Dec 05 21:33:52.471 GENERAL: working_dir=D:\CPE\IRC4\Projet transversal\réseau\Projet transversal\project-files\dynamips\0cd06508-1dfe-4533-bb59-1de814ce076f
+Dec 05 21:33:52.472 HYPERVISOR: exec_cmd: vm create BBN-R4 8 c7200 
+Dec 05 21:33:52.473 VM: VM BBN-R4 created.
+Dec 05 21:33:52.474 HYPERVISOR: exec_cmd: vm set_con_tcp_port BBN-R4 5019 
+Dec 05 21:33:52.474 HYPERVISOR: exec_cmd: c7200 get_mac_addr BBN-R4 
+Dec 05 21:33:52.474 HYPERVISOR: exec_cmd: vm get_status BBN-R4 
+Dec 05 21:33:52.474 HYPERVISOR: exec_cmd: vm slot_add_binding BBN-R4 0 0 C7200-IO-FE 
+Dec 05 21:33:52.475 HYPERVISOR: exec_cmd: vm set_disk0 BBN-R4 0 
+Dec 05 21:33:52.475 HYPERVISOR: exec_cmd: vm set_exec_area BBN-R4 64 
+Dec 05 21:33:52.475 HYPERVISOR: exec_cmd: vm get_status BBN-R4 
+Dec 05 21:33:52.476 HYPERVISOR: exec_cmd: vm set_idle_pc BBN-R4 0x60171348 
+Dec 05 21:33:52.476 HYPERVISOR: exec_cmd: vm set_ios BBN-R4 C:/Users/j-dumez/GNS3/images/IOS/c7200-adventerprisek9-mz.151-4.M.image 
+Dec 05 21:33:52.477 HYPERVISOR: exec_cmd: c7200 set_mac_addr BBN-R4 ca08.0e08.0000 
+Dec 05 21:33:52.477 HYPERVISOR: exec_cmd: vm set_nvram BBN-R4 512 
+Dec 05 21:33:52.478 HYPERVISOR: exec_cmd: vm set_ram BBN-R4 512 
+Dec 05 21:33:52.478 HYPERVISOR: exec_cmd: vm get_status BBN-R4 
+Dec 05 21:33:52.478 HYPERVISOR: exec_cmd: vm slot_remove_binding BBN-R4 0 0 
+Dec 05 21:33:52.478 HYPERVISOR: exec_cmd: vm get_status BBN-R4 
+Dec 05 21:33:52.479 HYPERVISOR: exec_cmd: vm slot_add_binding BBN-R4 0 0 C7200-IO-2FE 
+Dec 05 21:33:52.479 HYPERVISOR: exec_cmd: vm get_status BBN-R4 
+Dec 05 21:33:52.479 HYPERVISOR: exec_cmd: vm slot_add_binding BBN-R4 1 0 PA-2FE-TX 
+Dec 05 21:33:52.480 HYPERVISOR: exec_cmd: vm get_status BBN-R4 
+Dec 05 21:33:52.480 HYPERVISOR: exec_cmd: vm slot_add_binding BBN-R4 2 0 PA-2FE-TX 
+Dec 05 21:33:52.480 HYPERVISOR: exec_cmd: vm get_status BBN-R4 
+Dec 05 21:33:52.481 HYPERVISOR: exec_cmd: vm slot_add_binding BBN-R4 3 0 PA-8T 
+Dec 05 21:33:57.544 HYPERVISOR: exec_cmd: nio create_udp udp-b759641d-1a1c-49fa-a888-5736c169a762 10040 127.0.0.1 10041 
+Dec 05 21:33:57.798 HYPERVISOR: exec_cmd: vm slot_add_nio_binding BBN-R4 2 0 udp-b759641d-1a1c-49fa-a888-5736c169a762 
+Dec 05 21:33:57.798 HYPERVISOR: exec_cmd: vm get_status BBN-R4 
+Dec 05 21:33:57.882 HYPERVISOR: exec_cmd: nio create_udp udp-f2115d8e-ab77-4fde-8817-d25dcdfeb0d9 10044 127.0.0.1 10045 
+Dec 05 21:33:57.884 HYPERVISOR: exec_cmd: vm slot_add_nio_binding BBN-R4 2 1 udp-f2115d8e-ab77-4fde-8817-d25dcdfeb0d9 
+Dec 05 21:33:57.885 HYPERVISOR: exec_cmd: vm get_status BBN-R4 
+Dec 05 21:34:00.439 HYPERVISOR: exec_cmd: nio create_udp udp-88ef491b-f0e5-41d2-bf2b-114119891be7 10122 127.0.0.1 10123 
+Dec 05 21:34:00.441 HYPERVISOR: exec_cmd: vm slot_add_nio_binding BBN-R4 0 0 udp-88ef491b-f0e5-41d2-bf2b-114119891be7 
+Dec 05 21:34:00.442 HYPERVISOR: exec_cmd: vm get_status BBN-R4 
+Dec 05 21:34:00.522 HYPERVISOR: exec_cmd: nio create_udp udp-eddae58a-19db-43b9-ad2d-d773c66d1d27 10128 127.0.0.1 10129 
+Dec 05 21:34:00.525 HYPERVISOR: exec_cmd: vm slot_add_nio_binding BBN-R4 0 1 udp-eddae58a-19db-43b9-ad2d-d773c66d1d27 
+Dec 05 21:34:00.525 HYPERVISOR: exec_cmd: vm get_status BBN-R4 
+Dec 05 21:35:16.799 HYPERVISOR: exec_cmd: vm create Ghost 0 c7200 
+Dec 05 21:35:16.799 VM: VM Ghost created.
+Dec 05 21:35:16.801 HYPERVISOR: exec_cmd: vm set_ios Ghost C:/Users/j-dumez/GNS3/images/IOS/c7200-adventerprisek9-mz.151-4.M.image 
+Dec 05 21:35:16.802 HYPERVISOR: exec_cmd: vm set_ghost_status Ghost 1 
+Dec 05 21:35:16.803 HYPERVISOR: exec_cmd: vm set_ghost_file Ghost 'D:\CPE\IRC4\Projet transversal\réseau\Projet transversal\project-files\dynamips\c7200-adventerprisek9-mz.151-4.M.image-512.ghost' 
+Dec 05 21:35:16.805 HYPERVISOR: exec_cmd: vm get_status BBN-R4 
+Dec 05 21:35:16.808 HYPERVISOR: exec_cmd: vm set_config BBN-R4 configs\i8_startup-config.cfg configs\i8_private-config.cfg 
+Dec 05 21:35:16.808 HYPERVISOR: exec_cmd: vm start BBN-R4 
+Dec 05 21:35:51.746 HYPERVISOR: exec_cmd: vm extract_config BBN-R4 
+Dec 05 21:36:21.729 HYPERVISOR: exec_cmd: vm extract_config BBN-R4 
+Dec 05 22:04:06.531 HYPERVISOR: exec_cmd: vm get_status BBN-R4 
+Dec 05 22:04:06.532 HYPERVISOR: exec_cmd: vm stop BBN-R4 
+Dec 05 22:04:06.766 VM: VM BBN-R4 shutdown.
+Dec 05 22:04:06.770 HYPERVISOR: exec_cmd: vm extract_config BBN-R4 

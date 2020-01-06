@@ -1,0 +1,57 @@
+Dec 01 19:41:00.841 HYPERVISOR: Release 0.2.17-x86/Windows (tag 2017072410)
+Dec 01 19:41:00.841 HYPERVISOR: Started on IP = localhost, TCP port = 56739.
+Dec 01 19:41:01.345 HYPERVISOR: exec_cmd: hypervisor version 
+Dec 01 19:41:01.345 HYPERVISOR: exec_cmd: hypervisor working_dir D:\CPE\IRC4\Projet transversal\réseau\Projet transversal\project-files\dynamips 
+Dec 01 19:41:01.345 GENERAL: working_dir=D:\CPE\IRC4\Projet transversal\réseau\Projet transversal\project-files\dynamips
+Dec 01 19:41:01.345 HYPERVISOR: exec_cmd: hypervisor working_dir D:\CPE\IRC4\Projet transversal\réseau\Projet transversal\project-files\dynamips\6e518160-16e7-4825-8421-e2b2b5974b67 
+Dec 01 19:41:01.345 GENERAL: working_dir=D:\CPE\IRC4\Projet transversal\réseau\Projet transversal\project-files\dynamips\6e518160-16e7-4825-8421-e2b2b5974b67
+Dec 01 19:41:01.345 HYPERVISOR: exec_cmd: vm create SDIS-R1 10 c7200 
+Dec 01 19:41:01.349 VM: VM SDIS-R1 created.
+Dec 01 19:41:01.349 HYPERVISOR: exec_cmd: vm set_con_tcp_port SDIS-R1 5009 
+Dec 01 19:41:01.349 HYPERVISOR: exec_cmd: c7200 get_mac_addr SDIS-R1 
+Dec 01 19:41:01.349 HYPERVISOR: exec_cmd: vm get_status SDIS-R1 
+Dec 01 19:41:01.349 HYPERVISOR: exec_cmd: vm slot_add_binding SDIS-R1 0 0 C7200-IO-FE 
+Dec 01 19:41:01.349 HYPERVISOR: exec_cmd: vm set_disk0 SDIS-R1 0 
+Dec 01 19:41:01.349 HYPERVISOR: exec_cmd: vm set_exec_area SDIS-R1 64 
+Dec 01 19:41:01.349 HYPERVISOR: exec_cmd: vm get_status SDIS-R1 
+Dec 01 19:41:01.349 HYPERVISOR: exec_cmd: vm set_idle_pc SDIS-R1 0x60171348 
+Dec 01 19:41:01.349 HYPERVISOR: exec_cmd: vm set_ios SDIS-R1 C:/Users/j-dumez/GNS3/images/IOS/c7200-adventerprisek9-mz.151-4.M.image 
+Dec 01 19:41:01.349 HYPERVISOR: exec_cmd: c7200 set_mac_addr SDIS-R1 ca0a.2e64.0000 
+Dec 01 19:41:01.349 HYPERVISOR: exec_cmd: vm set_nvram SDIS-R1 512 
+Dec 01 19:41:01.349 HYPERVISOR: exec_cmd: vm set_ram SDIS-R1 512 
+Dec 01 19:41:01.349 HYPERVISOR: exec_cmd: vm get_status SDIS-R1 
+Dec 01 19:41:01.349 HYPERVISOR: exec_cmd: vm slot_remove_binding SDIS-R1 0 0 
+Dec 01 19:41:01.349 HYPERVISOR: exec_cmd: vm get_status SDIS-R1 
+Dec 01 19:41:01.349 HYPERVISOR: exec_cmd: vm slot_add_binding SDIS-R1 0 0 C7200-IO-2FE 
+Dec 01 19:41:01.349 HYPERVISOR: exec_cmd: vm get_status SDIS-R1 
+Dec 01 19:41:01.349 HYPERVISOR: exec_cmd: vm slot_add_binding SDIS-R1 1 0 PA-2FE-TX 
+Dec 01 19:41:01.349 HYPERVISOR: exec_cmd: vm get_status SDIS-R1 
+Dec 01 19:41:01.349 HYPERVISOR: exec_cmd: vm slot_add_binding SDIS-R1 2 0 PA-2FE-TX 
+Dec 01 19:41:01.349 HYPERVISOR: exec_cmd: vm get_status SDIS-R1 
+Dec 01 19:41:01.349 HYPERVISOR: exec_cmd: vm slot_add_binding SDIS-R1 3 0 PA-8T 
+Dec 01 19:41:07.310 HYPERVISOR: exec_cmd: nio create_udp udp-6671b81c-67e9-4d32-90be-327169488679 10094 127.0.0.1 10095 
+Dec 01 19:41:07.560 HYPERVISOR: exec_cmd: vm slot_add_nio_binding SDIS-R1 0 0 udp-6671b81c-67e9-4d32-90be-327169488679 
+Dec 01 19:41:07.560 HYPERVISOR: exec_cmd: vm get_status SDIS-R1 
+Dec 01 19:41:07.625 HYPERVISOR: exec_cmd: nio create_udp udp-68a32954-8405-4924-af0c-168d9402385f 10100 127.0.0.1 10101 
+Dec 01 19:41:07.641 HYPERVISOR: exec_cmd: vm slot_add_nio_binding SDIS-R1 0 1 udp-68a32954-8405-4924-af0c-168d9402385f 
+Dec 01 19:41:07.641 HYPERVISOR: exec_cmd: vm get_status SDIS-R1 
+Dec 01 19:41:08.189 HYPERVISOR: exec_cmd: nio create_udp udp-7285f975-f2b8-492b-8163-3f59deb292c3 10116 127.0.0.1 10117 
+Dec 01 19:41:08.192 HYPERVISOR: exec_cmd: vm slot_add_nio_binding SDIS-R1 1 0 udp-7285f975-f2b8-492b-8163-3f59deb292c3 
+Dec 01 19:41:08.192 HYPERVISOR: exec_cmd: vm get_status SDIS-R1 
+Dec 01 19:51:03.809 HYPERVISOR: exec_cmd: vm create Ghost 0 c7200 
+Dec 01 19:51:03.811 VM: VM Ghost created.
+Dec 01 19:51:03.852 HYPERVISOR: exec_cmd: vm set_ios Ghost C:/Users/j-dumez/GNS3/images/IOS/c7200-adventerprisek9-mz.151-4.M.image 
+Dec 01 19:51:03.853 HYPERVISOR: exec_cmd: vm set_ghost_status Ghost 1 
+Dec 01 19:51:03.853 HYPERVISOR: exec_cmd: vm set_ghost_file Ghost 'D:\CPE\IRC4\Projet transversal\réseau\Projet transversal\project-files\dynamips\c7200-adventerprisek9-mz.151-4.M.image-512.ghost' 
+Dec 01 19:51:03.853 HYPERVISOR: exec_cmd: vm get_status SDIS-R1 
+Dec 01 19:51:03.853 HYPERVISOR: exec_cmd: vm set_config SDIS-R1 configs\i10_startup-config.cfg 
+Dec 01 19:51:03.853 HYPERVISOR: exec_cmd: vm start SDIS-R1 
+Dec 01 19:51:34.612 HYPERVISOR: exec_cmd: vm extract_config SDIS-R1 
+Dec 01 19:52:04.622 HYPERVISOR: exec_cmd: vm extract_config SDIS-R1 
+Dec 01 22:19:34.996 HYPERVISOR: exec_cmd: vm extract_config SDIS-R1 
+Dec 01 23:31:15.543 HYPERVISOR: exec_cmd: vm get_status SDIS-R1 
+Dec 01 23:31:15.543 HYPERVISOR: exec_cmd: vm stop SDIS-R1 
+Dec 01 23:31:15.758 VM: VM SDIS-R1 shutdown.
+Dec 01 23:31:15.761 HYPERVISOR: exec_cmd: vm extract_config SDIS-R1 
+Dec 01 23:31:29.842 HYPERVISOR: exec_cmd: vm get_status SDIS-R1 
+Dec 01 23:31:29.843 HYPERVISOR: exec_cmd: vm extract_config SDIS-R1 

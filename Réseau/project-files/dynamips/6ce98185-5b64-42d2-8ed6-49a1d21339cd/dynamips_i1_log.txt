@@ -1,0 +1,60 @@
+Dec 05 21:33:48.269 HYPERVISOR: Release 0.2.17-x86/Windows (tag 2017072410)
+Dec 05 21:33:48.270 HYPERVISOR: Started on IP = localhost, TCP port = 59514.
+Dec 05 21:33:48.404 HYPERVISOR: exec_cmd: hypervisor version 
+Dec 05 21:33:48.405 HYPERVISOR: exec_cmd: hypervisor working_dir D:\CPE\IRC4\Projet transversal\réseau\Projet transversal\project-files\dynamips 
+Dec 05 21:33:48.661 GENERAL: working_dir=D:\CPE\IRC4\Projet transversal\réseau\Projet transversal\project-files\dynamips
+Dec 05 21:33:48.662 HYPERVISOR: exec_cmd: hypervisor working_dir D:\CPE\IRC4\Projet transversal\réseau\Projet transversal\project-files\dynamips\6ce98185-5b64-42d2-8ed6-49a1d21339cd 
+Dec 05 21:33:48.662 GENERAL: working_dir=D:\CPE\IRC4\Projet transversal\réseau\Projet transversal\project-files\dynamips\6ce98185-5b64-42d2-8ed6-49a1d21339cd
+Dec 05 21:33:48.663 HYPERVISOR: exec_cmd: vm create DC-R1 1 c7200 
+Dec 05 21:33:48.664 VM: VM DC-R1 created.
+Dec 05 21:33:48.665 HYPERVISOR: exec_cmd: vm set_con_tcp_port DC-R1 5012 
+Dec 05 21:33:48.666 HYPERVISOR: exec_cmd: c7200 get_mac_addr DC-R1 
+Dec 05 21:33:48.666 HYPERVISOR: exec_cmd: vm get_status DC-R1 
+Dec 05 21:33:48.666 HYPERVISOR: exec_cmd: vm slot_add_binding DC-R1 0 0 C7200-IO-FE 
+Dec 05 21:33:48.667 HYPERVISOR: exec_cmd: vm set_disk0 DC-R1 0 
+Dec 05 21:33:48.667 HYPERVISOR: exec_cmd: vm set_exec_area DC-R1 64 
+Dec 05 21:33:48.667 HYPERVISOR: exec_cmd: vm get_status DC-R1 
+Dec 05 21:33:48.667 HYPERVISOR: exec_cmd: vm set_idle_pc DC-R1 0x60171348 
+Dec 05 21:33:48.668 HYPERVISOR: exec_cmd: vm set_ios DC-R1 C:/Users/j-dumez/GNS3/images/IOS/c7200-adventerprisek9-mz.151-4.M.image 
+Dec 05 21:33:48.669 HYPERVISOR: exec_cmd: c7200 set_mac_addr DC-R1 ca01.1b04.0000 
+Dec 05 21:33:48.669 HYPERVISOR: exec_cmd: vm set_nvram DC-R1 512 
+Dec 05 21:33:48.669 HYPERVISOR: exec_cmd: vm set_ram DC-R1 512 
+Dec 05 21:33:48.670 HYPERVISOR: exec_cmd: vm get_status DC-R1 
+Dec 05 21:33:48.670 HYPERVISOR: exec_cmd: vm slot_remove_binding DC-R1 0 0 
+Dec 05 21:33:48.670 HYPERVISOR: exec_cmd: vm get_status DC-R1 
+Dec 05 21:33:48.670 HYPERVISOR: exec_cmd: vm slot_add_binding DC-R1 0 0 C7200-IO-2FE 
+Dec 05 21:33:48.671 HYPERVISOR: exec_cmd: vm get_status DC-R1 
+Dec 05 21:33:48.671 HYPERVISOR: exec_cmd: vm slot_add_binding DC-R1 1 0 PA-2FE-TX 
+Dec 05 21:33:48.671 HYPERVISOR: exec_cmd: vm get_status DC-R1 
+Dec 05 21:33:48.672 HYPERVISOR: exec_cmd: vm slot_add_binding DC-R1 2 0 PA-2FE-TX 
+Dec 05 21:33:48.672 HYPERVISOR: exec_cmd: vm get_status DC-R1 
+Dec 05 21:33:48.672 HYPERVISOR: exec_cmd: vm slot_add_binding DC-R1 3 0 PA-8T 
+Dec 05 21:33:58.383 HYPERVISOR: exec_cmd: nio create_udp udp-93b3940b-d464-4a94-8986-7043ca445fba 10064 127.0.0.1 10065 
+Dec 05 21:33:58.637 HYPERVISOR: exec_cmd: vm slot_add_nio_binding DC-R1 0 0 udp-93b3940b-d464-4a94-8986-7043ca445fba 
+Dec 05 21:33:58.637 HYPERVISOR: exec_cmd: vm get_status DC-R1 
+Dec 05 21:33:58.703 HYPERVISOR: exec_cmd: nio create_udp udp-df761cca-547c-49f6-8134-869e3734ad24 10068 127.0.0.1 10069 
+Dec 05 21:33:58.706 HYPERVISOR: exec_cmd: vm slot_add_nio_binding DC-R1 0 1 udp-df761cca-547c-49f6-8134-869e3734ad24 
+Dec 05 21:33:58.706 HYPERVISOR: exec_cmd: vm get_status DC-R1 
+Dec 05 21:33:58.785 HYPERVISOR: exec_cmd: nio create_udp udp-3a6b0162-bb9b-4bd3-a9ff-787c9f9b773c 10074 127.0.0.1 10075 
+Dec 05 21:33:58.787 HYPERVISOR: exec_cmd: vm slot_add_nio_binding DC-R1 1 0 udp-3a6b0162-bb9b-4bd3-a9ff-787c9f9b773c 
+Dec 05 21:33:58.787 HYPERVISOR: exec_cmd: vm get_status DC-R1 
+Dec 05 21:33:58.865 HYPERVISOR: exec_cmd: nio create_udp udp-248751a6-fbf1-4bcb-a4f8-c27bf7b6845d 10080 127.0.0.1 10081 
+Dec 05 21:33:58.867 HYPERVISOR: exec_cmd: vm slot_add_nio_binding DC-R1 1 1 udp-248751a6-fbf1-4bcb-a4f8-c27bf7b6845d 
+Dec 05 21:33:58.867 HYPERVISOR: exec_cmd: vm get_status DC-R1 
+Dec 05 21:34:00.334 HYPERVISOR: exec_cmd: nio create_udp udp-8c5ef386-4bc1-4ce3-b3b8-8add296be5bf 10118 127.0.0.1 10119 
+Dec 05 21:34:00.337 HYPERVISOR: exec_cmd: vm slot_add_nio_binding DC-R1 2 0 udp-8c5ef386-4bc1-4ce3-b3b8-8add296be5bf 
+Dec 05 21:34:00.337 HYPERVISOR: exec_cmd: vm get_status DC-R1 
+Dec 05 21:35:15.699 HYPERVISOR: exec_cmd: vm create Ghost 0 c7200 
+Dec 05 21:35:15.701 VM: VM Ghost created.
+Dec 05 21:35:15.701 HYPERVISOR: exec_cmd: vm set_ios Ghost C:/Users/j-dumez/GNS3/images/IOS/c7200-adventerprisek9-mz.151-4.M.image 
+Dec 05 21:35:15.702 HYPERVISOR: exec_cmd: vm set_ghost_status Ghost 1 
+Dec 05 21:35:15.703 HYPERVISOR: exec_cmd: vm set_ghost_file Ghost 'D:\CPE\IRC4\Projet transversal\réseau\Projet transversal\project-files\dynamips\c7200-adventerprisek9-mz.151-4.M.image-512.ghost' 
+Dec 05 21:35:15.703 HYPERVISOR: exec_cmd: vm get_status DC-R1 
+Dec 05 21:35:15.704 HYPERVISOR: exec_cmd: vm set_config DC-R1 configs\i1_startup-config.cfg configs\i1_private-config.cfg 
+Dec 05 21:35:15.704 HYPERVISOR: exec_cmd: vm start DC-R1 
+Dec 05 21:35:51.744 HYPERVISOR: exec_cmd: vm extract_config DC-R1 
+Dec 05 21:36:21.730 HYPERVISOR: exec_cmd: vm extract_config DC-R1 
+Dec 05 22:04:05.971 HYPERVISOR: exec_cmd: vm get_status DC-R1 
+Dec 05 22:04:05.971 HYPERVISOR: exec_cmd: vm stop DC-R1 
+Dec 05 22:04:06.199 VM: VM DC-R1 shutdown.
+Dec 05 22:04:06.201 HYPERVISOR: exec_cmd: vm extract_config DC-R1 
