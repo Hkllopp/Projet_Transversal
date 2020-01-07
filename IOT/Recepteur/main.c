@@ -8,28 +8,37 @@
 #include "extdrv/cc1101.h"
 #include "extdrv/status_led.h"
 #include "drivers/i2c.h"
+
+// AES
 #define ECB 1
 #include "aes.h"
+struct AES_ctx ctx;
+uint8_t key[16] = { (uint8_t) 0x2b, (uint8_t) 0x7e, (uint8_t) 0x15, (uint8_t) 0x16, (uint8_t) 0x28, (uint8_t) 0xae, (uint8_t) 0xd2, (uint8_t) 0xa6, (uint8_t) 0xab, (uint8_t) 0xf7, (uint8_t) 0x15, (uint8_t) 0x88, (uint8_t) 0x09, (uint8_t) 0xcf, (uint8_t) 0x4f, (uint8_t) 0x3c };
 
-
+// Module
 #define MODULE_VERSION  0x03
 #define MODULE_NAME "RF Sub1G - USB"
 
+// RF
 #define RF_868MHz  1
 #define RF_915MHz  0
 #if ((RF_868MHz) + (RF_915MHz) != 1)
 #error Either RF_868MHz or RF_915MHz MUST be defined.
 #endif
 
-#define DEBUG 1
-#define BUFF_LEN 60
 #define RF_BUFF_LEN  32 // taille du buffer
 
 #define SELECTED_FREQ  FREQ_SEL_48MHz
 #define DEVICE_ADDRESS  0xBA /* Addresses 0x00 and 0xFF are broadcast */
 #define NEIGHBOR_ADDRESS 0xAB /* Address of the associated device */
-//clé AES 128
-uint8_t key[16] = { (uint8_t) 0x2b, (uint8_t) 0x7e, (uint8_t) 0x15, (uint8_t) 0x16, (uint8_t) 0x28, (uint8_t) 0xae, (uint8_t) 0xd2, (uint8_t) 0xa6, (uint8_t) 0xab, (uint8_t) 0xf7, (uint8_t) 0x15, (uint8_t) 0x88, (uint8_t) 0x09, (uint8_t) 0xcf, (uint8_t) 0x4f, (uint8_t) 0x3c };
+
+static volatile uint8_t buffer_receive[RF_BUFF_LEN] = ""; // buffer de reception
+static volatile uint8_t buffer_send[RF_BUFF_LEN] = ""; // buffer d'envoi
+volatile uint8_t buffer[1024] = ""; //buffer
+int ptr = 0; // permet de refragmenter un message envoyé par radio
+
+static volatile uint32_t cc_tx = 0; // variable pour déclencher une transmition radio
+static volatile uint8_t cc_ptr = 0; // variable pour remplir le buffer
 
 /***************************************************************************** */
 /* Pins configuration */
@@ -57,14 +66,7 @@ const struct pio status_led_red = LPC_GPIO_0_29;
 
 const struct pio button = LPC_GPIO_0_12; /* ISP button */
 
-static volatile uint8_t buffer_receive[RF_BUFF_LEN];
-static volatile uint8_t buffer_send[RF_BUFF_LEN] = "";
-
-static volatile uint32_t cc_tx = 0;
-static volatile uint8_t cc_ptr = 0;
-
-
-char checksum(char* s)
+char checksum(char* s) // Modular sum (CRC)
 {
 	signed char sum = -1;
 	while (*s != 0)
@@ -75,7 +77,7 @@ char checksum(char* s)
 	return sum;
 }
 
-void handle_uart_cmd(uint8_t c)
+void handle_uart_cmd(uint8_t c) // Fonction lecture lisaison UART + remplissage variable buffer_send (utilisation ultérieure)
 {
     if (cc_ptr < RF_BUFF_LEN) {
         buffer_send[cc_ptr++] = c;
@@ -134,64 +136,57 @@ void rf_config(void)
     cc1101_update_config(rf_specific_settings, sizeof(rf_specific_settings));
     set_gpio_callback(rf_rx_calback, &cc1101_gdo0, EDGE_RISING);
     cc1101_set_address(DEVICE_ADDRESS);
-#ifdef DEBUG
-    uprintf(UART0, "CC1101 RF link init done.\n\r");
-#endif
 }
-
 
 void handle_rf_rx_data(void)
 {
-    uint8_t data[BUFF_LEN];
+    uint8_t data[RF_BUFF_LEN+4];
     int8_t ret = 0;
     uint8_t status = 0;
-    uint32_t nombreDechiffre = 0;
-    struct AES_ctx ctx;
+    
     AES_init_ctx(&ctx,key);
 
-
     /* Check for received packet (and get it if any) */
-    ret = cc1101_receive_packet(data, BUFF_LEN, &status);
+    ret = cc1101_receive_packet(data, sizeof(data), &status);
 
-  
    	cc1101_enter_rx_mode();
    	//check de l'adresse source
    	if (data[34] == NEIGHBOR_ADDRESS)
    	{
    		//copie du payload chiffré en mémoire
-   		memcpy(&buffer_receive,&data[2],sizeof(buffer_receive));
+   		memcpy(&buffer_receive,&data[2],RF_BUFF_LEN);
 
    		//déchiffrement AES et stockage dans buffer_receive
     	for (int i = 0; i < 2; ++i)
     	{
     		AES_ECB_decrypt(&ctx,buffer_receive+(i*16));
     	}
-
     	//calcul du checksum 
     	if (checksum(buffer_receive)==data[35])
     	{
-    		uprintf(UART0, "CRC OK: %d\n", data[35]);
-    		uprintf(UART0, "%s\n", (char*)&buffer_receive);	
-	
+    		//uprintf(UART0, "%s", buffer_receive);
+            for(int i = 0; i<strlen(buffer_receive); i++){ // on refragmente le message
+                if(buffer_receive[i] != '\n'){
+                    buffer[i+ptr] = buffer_receive[i];
+                }
+                else{
+                    for(int j=0; j<strlen(buffer);j++){ // on envoie le message entier sur la liaison UART
+                        uprintf(UART0, "%c",buffer[j]);
+                    }
+                    ptr=0;
+                    for(int k=0; k<sizeof(buffer);k++){
+					    buffer[k]=0;
+				    }
+                    break;
+                }
+            }
+            ptr += 32;
     	}
     	
-   	}else{
-   		for (int i = 0; i < sizeof(data); ++i)
-   		{
-   			uprintf(UART0,"%d : %X \n",i,data[i]);
-   		}
-   		
    	}
-   
-#ifdef DEBUG
-    /*uprintf(UART0, "RF: ret:%d, st: %d.\n\r", ret, status);
-    uprintf(UART0, "RF: data lenght: %d.\n\r", data[0]);
-    uprintf(UART0, "RF: destination: %x.\n\r", data[1]);*/
-    
-#endif
 }
 
-void send_on_rf(void)
+void send_on_rf(void) //permet d'envoyer des données en radio (utilisation ultérieure)
 {
 	//uprintf(UART0, "On rentre dans send_on_rf : \n\r");
     uint8_t cc_tx_data[sizeof(buffer_send)+2];
@@ -205,20 +200,12 @@ void send_on_rf(void)
     }
  
     int ret = cc1101_send_packet(cc_tx_data, sizeof(buffer_send)+2);
-
-#ifdef DEBUG
-    /*uprintf(UART0, "Tx ret: %d\n\r", ret);
-    uprintf(UART0, "RF: data lenght: %d.\n\r", cc_tx_data[0]);
-    uprintf(UART0, "RF: destination: %x.\n\r", cc_tx_data[1]);
-    uprintf(UART0, "RF: message: %d.\n\r", cc_tx_data[2]);*/
-#endif
 }
 
 int main(void)
 {
     system_init();
     uart_on(UART0, 115200, handle_uart_cmd);
-    //i2c_on(I2C0, I2C_CLK_100KHz, I2C_MASTER);
     ssp_master_on(0, LPC_SSP_FRAME_SPI, 8, 4*1000*1000); /* bus_num, frame_type, data_width, rate */
     status_led_config(&status_led_green, &status_led_red);
     
@@ -227,7 +214,7 @@ int main(void)
     rf_config();
 
 
-    uprintf(UART0, "App started\n\r");
+    //uprintf(UART0, "App started\n\r");
 
     while (1) {
         uint8_t status = 0;
@@ -237,10 +224,7 @@ int main(void)
         chenillard(250);
         
         /* RF */
-        if (cc_tx == 1) {
-            #ifdef DEBUG
-            //uprintf(UART0, "Message a envoyer : %s\n\r", buffer_send);
-            #endif
+        if (cc_tx == 1) { //envoi d'un message (utilisation ultérieure)
             send_on_rf();
             //uprintf(UART0, " send_on_rf execution OK \n\r");
             cc_tx = 0;
@@ -248,8 +232,6 @@ int main(void)
                 buffer_send[i]=0;
             }
             cc_ptr = 0;
-            //uprintf(UART0, " vidage buffer + cc_ptr OK \n\r");
-
         }
 
         /* Do not leave radio in an unknown or unwated state */
@@ -275,8 +257,3 @@ int main(void)
     }
     return 0;
 }
-
-
-
-
-
