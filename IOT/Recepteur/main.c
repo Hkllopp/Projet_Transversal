@@ -170,9 +170,11 @@ void handle_rf_rx_data(void)
                     buffer[i+ptr] = buffer_receive[i];
                 }
                 else{
+                    buffer[i+ptr] = '\n';
                     for(int j=0; j<strlen(buffer);j++){ // on envoie le message entier sur la liaison UART
                         uprintf(UART0, "%c",buffer[j]);
                     }
+                    uprintf(UART0, "done");
                     ptr=0;
                     for(int k=0; k<sizeof(buffer);k++){
 					    buffer[k]=0;
