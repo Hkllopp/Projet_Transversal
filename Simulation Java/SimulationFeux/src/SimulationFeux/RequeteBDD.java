@@ -113,6 +113,5 @@ public class RequeteBDD {
 			e.printStackTrace();
 		}
 	}
-	
-	
+		
 }

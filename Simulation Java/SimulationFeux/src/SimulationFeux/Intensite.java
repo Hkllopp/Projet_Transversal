@@ -15,5 +15,14 @@ public class Intensite {
 	{
 		this.hauteur = hauteur;
 	}
+	public void baisseHauteur(int diminution)
+	{
+		this.hauteur-= diminution;
+	}
+	public void augmenterHauteur(int augmentation)
+	{
+		this.hauteur+= augmentation;
+	}
+	
 
 }

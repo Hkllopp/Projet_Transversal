@@ -3,11 +3,19 @@ package SimulationFeux;
 public class Feu {
 	private Coordonnee position;
 	private Intensite taille;
+	private static int nbFeu = 0;
+	private int idFeu;
 	
 	public Feu(Coordonnee position, Intensite taille)
 	{
+		nbFeu++;
 		this.position = position;
 		this.taille = taille;
+		this.idFeu = nbFeu;
+	}
+	public int getIdFeu()
+	{
+		return this.idFeu;
 	}
 	public Coordonnee getPosition()
 	{
@@ -25,5 +33,15 @@ public class Feu {
 	{
 		this.taille = taille;
 	}
+	public void diminutionIntensiteFeu(int diminution)
+	{
+		this.taille.baisseHauteur(diminution);
+	}
+	
+	public void augmentationIntensiteFeu(int augmentation)
+	{
+		this.taille.augmenterHauteur(augmentation);
+	}
+	
 
 }

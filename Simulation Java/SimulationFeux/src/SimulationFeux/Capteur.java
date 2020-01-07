@@ -16,6 +16,11 @@ public class Capteur {
 		this.position = position;
 		this.activation = activation;
 	}
+	
+	public int getIdCapteur()
+	{
+		return this.idCapteur;
+	}
 	public Coordonnee getPosition()
 	{
 		return this.position;

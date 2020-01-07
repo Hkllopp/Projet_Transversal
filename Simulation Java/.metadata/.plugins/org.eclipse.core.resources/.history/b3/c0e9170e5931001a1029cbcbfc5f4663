@@ -1,0 +1,20 @@
+package SimulationFeux;
+
+public class SQLAlerte {
+	private String RequeteDeleteAlerte;
+	private String RequeteRecuperationAlerte;
+	private RequeteBDD outil;
+	
+	public SQLAlerte(RequeteBDD outil)
+	{
+		this.RequeteDeleteAlerte = "DELETE FROM Alertes";
+		this.RequeteRecuperationAlerte="";
+		this.outil = outil;
+	}
+
+	public void suppressionDonnee()
+	{
+		this.outil.setRequeteSQL(RequeteDeleteAlerte);
+		this.outil.insertionUpdateBDD();
+	}
+}
