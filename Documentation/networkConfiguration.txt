@@ -1,0 +1,11 @@
+Pour connecter la VM au réseau local :
+- Changer les network settings de virtualbox en Bridged adaptator
+- Changer les paramètres settings en manuel --> 192.168.0.118 255.255.255.0
+- redémarrer la wifi de debian
+
+Pour remettre internet :
+- Changer les network settings de virtualbox en NAT
+- Changer les paramètres settings en Auto
+- redémarrer la wifi de debian
+
+Format des données --> (x1,y1,i1)(x2,y2,i2)

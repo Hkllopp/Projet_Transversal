@@ -46,21 +46,27 @@ function locationLoad()//Permet de charger et d'afficher les points contenus dan
                 fireMarkerLayerGroup = L.layerGroup().addTo(mymap);
                 //Ici, ajouter une fonction qui récupère les coordonées des feux dans la BDD et les charge sur la MAP
                 $.get("/loadFireLocation", function(data) {//Permet de récupérer les points dans la BDD en JSON
-                        var str = data.toString().substring(1);
-                        str = str.substring(0, str.length-1);
-                        str = str.split("),(");
-                        console.log("Feux :");
-                        for (var i = 0; i < str.length; i++)
-                        {
-                                var coordinates = str[i].split(",");
-                                console.log("Coordonnées n°"+(i+1));
-                                var stringCoord1 = "Latitude: "+ coordinates[0];
-                                var stringCoord2 = "Longitude: "+ coordinates[1];
-                                console.log(stringCoord1);
-                                console.log(stringCoord2);
-                                addLocation(parseFloat(coordinates[0]),parseFloat(coordinates[1]),"Feu n° "+(i+1),"<br>"+stringCoord1+"</br>"+"<br>"+stringCoord2+"</br>",fireMarkerLayerGroup,fireIcon);
-                        }
-                })
+                var str = data;
+                var i = 0;
+                for (coord of str)
+                {
+                        console.log("Le tuple n°"+i+" est "+coord);
+                        console.log("Le chiffre n°1 est "+coord[0]);
+                        console.log("Le chiffre n°2 est "+coord[1]);
+                        console.log("Le chiffre n°3 est "+coord[2]);
+                        i++
+                        var realCoord1 = coord[0]*0.00888+45.71;//Méthode pour convertir la latitude proportionnellement: coords de départ [0:9] --> [45.71:45.78]
+                        var stringCoord1 = "Latitude: "+ realCoord1 ;
+                        console.log(stringCoord1);
+                        var realCoord2 = coord[1]*0.01555+4.8;//Méthode pour convertir la longitude proportionnellement: coords de départ [0:9] --> [4.8:4.93995]
+                        var stringCoord2 = "Longitude: " +realCoord2;
+                        console.log(stringCoord2);  
+                        var stringIntens = "Intensité: " + coord[2];
+                        console.log(stringIntens);
+                        addLocation(realCoord1,realCoord2,"Feu n° "+(i),"<br>"+stringCoord1+"</br>"+"<br>"+stringCoord2+"</br>"+"<br>"+stringIntens+"</br>",fireMarkerLayerGroup,fireIcon);
+
+                }
+        })
         }
         if (e.options[e.selectedIndex].value == 'truck' || e.options[e.selectedIndex].value == 'both')
         {
@@ -68,19 +74,31 @@ function locationLoad()//Permet de charger et d'afficher les points contenus dan
                 console.log("Camions séléctionnés");
                 //Ici, ajouter une fonction qui récupère les coordonées des camions dans la BDD et les charge sur la MAP
                 $.get("/loadTruckLocation", function(data) {//Permet de récupérer les points dans la BDD en JSON
-                        var str = data.toString().substring(1);
-                        str = str.substring(0, str.length-1);
-                        str = str.split("),(");
-                        console.log("Camions :");
-                        for (var i = 0; i < str.length; i++)
+                        console.log("Raw data : ");
+                        console.log(data);
+                        var str = data;
+                        var i = 0;
+                        for (coord of str)
                         {
-                                var coordinates = str[i].split(",");
-                                console.log("Coordonnées n°"+(i+1));
-                                var stringCoord1 = "Latitude: "+ coordinates[0];
-                                var stringCoord2 = "Longitude: "+ coordinates[1];
+                                console.log("Le tuple n°"+i+" est "+coord);
+                                console.log("L'id du camion est "+coord[0]);
+                                console.log("La coordX du camion est "+coord[1]);
+                                console.log("La coordY du camions est "+coord[2]);
+                                i++
+
+                                var stringId = "Id: " + coord[0];
+                                console.log(stringId);
+
+                                var realCoord1 = coord[1]*0.00888+45.71;//Méthode pour convertir la latitude proportionnellement: coords de départ [0:9] --> [45.71:45.78]
+                                var stringCoord1 = "Latitude: "+ realCoord1 ;
                                 console.log(stringCoord1);
-                                console.log(stringCoord2);
-                                addLocation(parseFloat(coordinates[0]),parseFloat(coordinates[1]),"Camion n° "+(i+1),"<br>"+stringCoord1+"</br>"+"<br>"+stringCoord2+"</br>",truckMarkerLayerGroup,truckIcon);
+
+                                var realCoord2 = coord[2]*0.01555+4.8;//Méthode pour convertir la longitude proportionnellement: coords de départ [0:9] --> [4.8:4.93995]
+                                var stringCoord2 = "Longitude: " +realCoord2;
+                                console.log(stringCoord2);  
+
+                                addLocation(realCoord1,realCoord2,"Camion n° "+(i)+" , id "+coord[0],"<br>"+stringCoord1+"</br>"+"<br>"+stringCoord2+"</br>",truckMarkerLayerGroup,truckIcon);
+
                         }
                 })
 
@@ -88,9 +106,9 @@ function locationLoad()//Permet de charger et d'afficher les points contenus dan
 }
 
 //Ajoute un marqueur à un point défini avec un popup, une icon personnalisé et accroché à une couche spécifique
-function addLocation(coordA, coordB, boldText, simpleText,layerGroup,markerIcon)
+function addLocation(pointA, pointB, boldText, simpleText,layerGroup,markerIcon)
 {
-        var marqueur = L.marker([coordA,coordB],{icon : markerIcon}).addTo(layerGroup);
+        var marqueur = L.marker([pointA,pointB],{icon : markerIcon}).addTo(layerGroup);
         if (boldText == undefined)boldText = "";
         if (simpleText == undefined)simpleText = "";
         var message = '<b>'+boldText+'</b><br>'+simpleText+'</br>';
@@ -99,6 +117,16 @@ function addLocation(coordA, coordB, boldText, simpleText,layerGroup,markerIcon)
 
 function resetLocations()//Permet de supprimer tous les marqueurs d'une couche
 {
-        truckMarkerLayerGroup.clearLayers();
-        fireMarkerLayerGroup.clearLayers();
+        var e = document.getElementById("markersLayerSelection");
+        if (e.options[e.selectedIndex].value == 'fire' || e.options[e.selectedIndex].value == 'both')
+        {
+                console.log("Suppression des feux demandée");
+                fireMarkerLayerGroup.clearLayers();
+        }
+        if (e.options[e.selectedIndex].value == 'truck' || e.options[e.selectedIndex].value == 'both')
+        {
+                console.log("Suppression des camions demandée");
+                truckMarkerLayerGroup.clearLayers();
+        }
+        
 }
