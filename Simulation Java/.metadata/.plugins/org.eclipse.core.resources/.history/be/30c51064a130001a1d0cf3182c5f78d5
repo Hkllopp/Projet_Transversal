@@ -1,0 +1,67 @@
+package SimulationFeux;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+public class RequeteBDD {
+	
+	private Statement state;
+	private int resultatInsertUpdate;
+	private ResultSet resultatSelect;
+	private String RequeteSQL;
+	
+	public RequeteBDD(Connection connect)
+	{
+		try
+		{
+			this.state = connect.createStatement();
+			System.out.println("Statement effectif ! ");
+			
+			
+		} catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+		this.resultatInsertUpdate = 0;
+		this.resultatSelect = null;
+		this.RequeteSQL = "";	 
+		
+	}
+	
+	public ResultSet getResultatSelect()
+	{
+		return this.resultatSelect;
+	}
+	public int getResultatInsertUpdate()
+	{
+		return this.resultatInsertUpdate;
+	}
+	
+	public void insertionUpdateBDD()
+	{
+		try 
+		{	
+			this.resultatInsertUpdate = this.state.executeUpdate(this.RequeteSQL);
+			
+		}catch (Exception e) 
+		{
+		     e.printStackTrace();
+		     
+		}
+		
+	}
+	
+	public void selectBDD()
+	{
+		try
+		{
+			this.resultatSelect = this.state.executeQuery(this.RequeteSQL);
+			
+		}catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+	}
+
+}

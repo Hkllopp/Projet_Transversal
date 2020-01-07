@@ -1,0 +1,92 @@
+package SimulationFeux;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+public class SessionBDD {
+	
+	 private String url;
+	 private String user;
+	 private String passwd;
+	 private Connection connect; 
+	 private Statement state;
+	 
+	 public SessionBDD()
+	 {
+		 this.url = "jdbc:postgresql://localhost:5432/Simulation feux";
+		 this.user = "simu_feux";
+		 this.passwd = "simu_feux";
+		 try 
+		 { 
+			 Class.forName("org.postgresql.Driver");
+		     System.out.println("Driver O.K.");
+			 this.connect = DriverManager.getConnection(this.url, this.user, this.passwd);
+			 System.out.println("Connection BDD effective ! ");
+			 this.state = this.connect.createStatement(); 
+			 //state.close();
+		 } catch (Exception e) 
+		 {
+		      e.printStackTrace();
+		 }
+		 
+	 }
+	 public SessionBDD(String url, String user, String passwd)
+	 {
+		 this.url = url;
+		 this.user = user;
+		 this.passwd = passwd;
+		 try 
+		 { 	
+			 Class.forName("org.postgresql.Driver");
+		     System.out.println("Driver O.K.");
+			 this.connect = DriverManager.getConnection(this.url, this.user, this.passwd);
+			 System.out.println("Connection BDD effective ! ");
+			 
+			 this.state = this.connect.createStatement();
+			 //state.close();
+		 } catch (Exception e) 
+		 {
+		      e.printStackTrace();
+		 }
+	 }
+	 public Statement getState()
+	 {
+		 return this.state;
+	 }
+	 
+	 
+	public int insertionUpdateBDD(String requeteInsertUpdate)
+	{
+		try 
+		{	
+			int result = this.state.executeUpdate(requeteInsertUpdate);
+			return result;
+		}catch (Exception e) 
+		{
+		     e.printStackTrace();
+		     return -1;
+		}
+		
+	}
+	
+	public ResultSet selectBDD(String requeteSelect)
+	{
+		ResultSet result = null;
+		try
+		{
+			result = this.state.executeQuery(requeteSelect);
+			return result;
+		}catch (Exception e) 
+		{
+			e.printStackTrace();
+			return result;
+		}
+		
+	}
+	
+	 
+	 
+
+}
