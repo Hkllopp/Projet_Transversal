@@ -1,0 +1,32 @@
+package SimulationFeux;
+
+import java.util.ArrayList;
+
+public class SQLCapteurs {
+	
+	private String RequeteCapteur;
+	private RequeteBDD outil;
+	
+	public SQLCapteurs(RequeteBDD outil)
+	{
+		this.RequeteCapteur = "SELECT * FROM capteurs";
+		this.outil = outil;
+	}
+	public void recuperationDonnee()
+	{
+		this.outil.setRequeteSQL(RequeteCapteur);
+		this.outil.selectBDD();
+	}
+	public ArrayList<Capteur> generationCapteur()
+	{
+		ArrayList<Capteur> listCapteurs = new ArrayList<Capteur>();
+		
+		
+		
+		
+		
+		
+		
+		return listCapteurs;
+	}
+}
