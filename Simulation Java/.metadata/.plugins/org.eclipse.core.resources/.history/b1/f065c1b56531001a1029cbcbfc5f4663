@@ -33,7 +33,6 @@ public class Simulation {
 		//Purge Alerte
 		RequeteBDD SQLAlerte = new RequeteBDD(BDDsimuFeu.getConnect());
 		SQLAlerte Alerte = new SQLAlerte(SQLAlerte);
-		Alerte.suppressionTouteLesAlerteDonnee();
 		
 		//Recuperation Camion
 		RequeteBDD SQLCamion = new RequeteBDD(BDDCamion.getConnect());
@@ -49,9 +48,9 @@ public class Simulation {
 				if(random < 250)
 				{
 				
-					Feu nouveauFeu = new Feu(new Coordonnee(Math.random() * 10, Math.random() * 10),
+					Feu nouveauFeu = new Feu(new Coordonnee((double)(int)Math.random() * 10, (double)(int)Math.random() * 10),
 											 new Intensite(10));
-					//System.out.println("position feu" +nouveauFeu.getPosition().getLatitude()+"  "+nouveauFeu.getPosition().getLongitude());
+					System.out.println("position feu" +nouveauFeu.getPosition().getLatitude()+"  "+nouveauFeu.getPosition().getLongitude());
 					listFeu.add(nouveauFeu);
 					
 				}
@@ -74,7 +73,7 @@ public class Simulation {
 				for(int i = 0;i < listFeu.size();i++)
 				{
 					listFeu.get(i).augmentationIntensiteFeu(1);
-					//System.out.println(listFeu.get(i).getTaille().getHauteur());
+					System.out.println(listFeu.get(i).getTaille().getHauteur());
 				}
 				
 				for(int i = 0;i < listCapteurs.size();i++)
@@ -82,7 +81,7 @@ public class Simulation {
 					//System.out.println("position capteur :" +listCapteurs.get(i).getPosition().getLatitude()+"  "+listCapteurs.get(i).getPosition().getLongitude());
 					for(int j = 0;j < listFeu.size();j++)
 					{
-						//System.out.println(Alerte.getNbAlerteSurFeu(listFeu.get(j)));
+						System.out.println(Alerte.getNbAlerteSurFeu(listFeu.get(j)));
 						if(listCapteurs.get(i).getPosition().equals(listFeu.get(j).getPosition()))
 						{
 							if(Alerte.getNbAlerteSurFeu(listFeu.get(j)) > 0)

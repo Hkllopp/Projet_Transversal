@@ -23,10 +23,10 @@ public class SQLCamionsSurZone {
 		try
 		{
 			while(this.outil.getResultatSelect().next())
-		    {         
+		      {         
 				listCamionsSurZone.add(new Camion(new Coordonnee(this.outil.getResultatSelect().getDouble("coordonneeActuelXCamion"),
 		        						this.outil.getResultatSelect().getDouble("coordonneeActuelYCamion"))));
-		    }
+		      }
 		} catch (Exception e) 
 		{
 			e.printStackTrace();

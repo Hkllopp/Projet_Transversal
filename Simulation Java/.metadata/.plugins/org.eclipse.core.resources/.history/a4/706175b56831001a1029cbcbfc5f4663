@@ -29,8 +29,8 @@ public class Coordonnee {
 	}
 	public boolean equals(Object obj)
 	{
-		return (obj instanceof Coordonnee) && Math.round(this.longitude) == Math.round(((Coordonnee)obj).getLongitude())
-				&& Math.round(this.latitude) == Math.round(((Coordonnee)obj).getLatitude());	
+		return (obj instanceof Coordonnee) && this.longitude == ((Coordonnee)obj).getLongitude() 
+				&& this.latitude == ((Coordonnee)obj).getLatitude();	
 	}
 
 }

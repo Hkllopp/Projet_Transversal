@@ -30,7 +30,7 @@ public class connectionBDDTest {
 		      //state.executeUpdate("INSERT into feux(localisation, intensite) values('(46,23)',3)");
 		      //state.executeUpdate("INSERT into camions(position_actuel, statut) values('(0,0)','en attente')");
 		      //ResultSet result = state.executeQuery("SELECT * FROM capteurs");
-		      ResultSet result = state.executeQuery("SELECT count(idAlerte) FROM Alertes WHERE idAlerte =" +4);
+		      ResultSet result = state.executeQuery("SELECT count(*) FROM capteurs");
 		      //On récupère les MetaData
 		      //ResultSetMetaData resultMeta = result.getMetaData();
 		         
@@ -49,7 +49,7 @@ public class connectionBDDTest {
 
 		     // }
 		      result.next();
-		      System.out.println((int)result.getInt("count"));
+		      System.out.println(result.getInt("count"));
 
 		      result.close();
 		      state.close();        

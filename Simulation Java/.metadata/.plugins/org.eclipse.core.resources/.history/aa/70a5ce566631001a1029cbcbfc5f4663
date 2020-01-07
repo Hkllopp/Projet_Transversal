@@ -33,7 +33,6 @@ public class Simulation {
 		//Purge Alerte
 		RequeteBDD SQLAlerte = new RequeteBDD(BDDsimuFeu.getConnect());
 		SQLAlerte Alerte = new SQLAlerte(SQLAlerte);
-		Alerte.suppressionTouteLesAlerteDonnee();
 		
 		//Recuperation Camion
 		RequeteBDD SQLCamion = new RequeteBDD(BDDCamion.getConnect());
@@ -49,7 +48,7 @@ public class Simulation {
 				if(random < 250)
 				{
 				
-					Feu nouveauFeu = new Feu(new Coordonnee(Math.random() * 10, Math.random() * 10),
+					Feu nouveauFeu = new Feu(new Coordonnee((double)(int)Math.random() * 10, (double)(int)Math.random() * 10),
 											 new Intensite(10));
 					//System.out.println("position feu" +nouveauFeu.getPosition().getLatitude()+"  "+nouveauFeu.getPosition().getLongitude());
 					listFeu.add(nouveauFeu);

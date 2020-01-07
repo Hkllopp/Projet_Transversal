@@ -93,7 +93,6 @@ public class RequeteBDD {
 		try 
 		{	
 			this.resultatInsertUpdate = this.state.executeUpdate(this.requeteSQL);
-			System.out.println("Modificationn reussi");
 			
 		}catch (Exception e) 
 		{

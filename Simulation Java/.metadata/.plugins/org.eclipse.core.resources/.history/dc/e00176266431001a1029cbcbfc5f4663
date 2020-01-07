@@ -10,7 +10,7 @@ public class SQLAlerte {
 	public SQLAlerte(RequeteBDD outil)
 	{
 		this.RequeteDeleteAlerte = "DELETE FROM Alertes";
-		this.RequeteRecuperationAlerte="";
+		this.RequeteRecuperationAlerte="SELECT count(idAlerte) FROM Alertes WHERE idAlerte =";
 		this.outil = outil;
 	}
 
@@ -22,7 +22,7 @@ public class SQLAlerte {
 	
 	public int getNbAlerteSurFeu(Feu feu) throws SQLException
 	{
-		this.RequeteRecuperationAlerte = "SELECT count(idAlerte) FROM Alertes WHERE idAlerte = " + feu.getIdFeu();
+		this.RequeteRecuperationAlerte = this.RequeteRecuperationAlerte + feu.getIdFeu();
 		this.outil.setRequeteSQL(RequeteRecuperationAlerte);
 		this.outil.selectBDD();
 		this.outil.getResultatSelect().next();
@@ -44,7 +44,7 @@ public class SQLAlerte {
 															  +capteur.getIdCapteur()+", "
 															  +feu.getPosition().getLatitude()+", "
 															  +feu.getPosition().getLongitude()+", "
-															  +feu.getTaille().getHauteur()+")");
+															  +feu.getTaille().getHauteur());
 		this.outil.insertionUpdateBDD();
 	}
 }
