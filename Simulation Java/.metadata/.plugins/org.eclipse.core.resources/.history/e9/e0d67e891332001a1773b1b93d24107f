@@ -1,0 +1,95 @@
+package Emergency;
+
+import java.util.ArrayList;
+import java.util.Collections;
+
+public class EmergencyManager {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		//BankBDDSession infoBDD = new BankBDDSession();
+		ArrayList<Alerte> listAlertes = new ArrayList<Alerte>();
+		ArrayList<Camion> listCamions = new ArrayList<Camion>();
+		ArrayList<Intervention> listInterventions = new ArrayList<Intervention>();
+		
+		/*SessionBDD BDDEmergency = new SessionBDD(infoBDD.getURLSessionEmergency(),
+												 infoBDD.getuserEmergency(),
+												 infoBDD.getpasswdEmergency());
+		
+		RequeteBDD SQLAlerte = new RequeteBDD(BDDEmergency.getConnect());
+		SQLAlerte alertes = new SQLAlerte(SQLAlerte);
+		
+		RequeteBDD SQLCamion = new RequeteBDD(BDDEmergency.getConnect());
+		SQLCamion camions = new SQLCamion(SQLCamion);
+		
+		RequeteBDD SQLIntervention = new RequeteBDD(BDDEmergency.getConnect());
+		SQLIntervention interventions = new SQLIntervention(SQLIntervention);*/
+		
+		Alerte alerte1 = new Alerte(1, new Coordonnee(1,2), new Intensite(5));
+		Alerte alerte2 = new Alerte(2, new Coordonnee(1,2), new Intensite(5));
+		Alerte alerte3 = new Alerte(3, new Coordonnee(1,2), new Intensite(5));
+		Alerte alerte4 = new Alerte(4, new Coordonnee(1,2), new Intensite(5));
+		Alerte alerte5 = new Alerte(5, new Coordonnee(1,2), new Intensite(5));
+		Alerte alerte6 = new Alerte(6, new Coordonnee(1,2), new Intensite(5));
+		listAlertes.add(alerte1);
+		listAlertes.add(alerte2);
+		listAlertes.add(alerte3);
+		listAlertes.add(alerte4);
+		listAlertes.add(alerte5);
+		listAlertes.add(alerte6);
+		
+		Intervention intervention1 = new Intervention(new Camion(), alerte1);
+		Intervention intervention2 = new Intervention(new Camion(), alerte2);								
+		
+		for(int i = 0;i <listAlertes.size();i++)
+		{
+			if(Collections.frequency(listInterventions, listAlertes.get(i)) > 1)
+			{
+				System.out.println("Il y a au moins 1 intervention associé à l'alerte");
+			}
+			else
+			{
+				System.out.println("ça marche pas");
+			}
+		}
+		
+		
+		/*while(true)
+		{
+			alertes.recuperationDonnee();
+			listAlertes = alertes.generationAlerte();
+			
+			camions.recuperationDonnee();
+			listCamions = camions.generationCamion();
+			
+			interventions.recuperationDonnee();
+			listInterventions = interventions.generationIntervention(listCamions, listAlertes);
+			
+			//int repetition = 0;
+			
+			/*for(int i = 0;i <listAlertes.size();i++)
+			{
+				if(Collections.frequency(listInterventions, listAlertes.get(i)) < 1)
+				{
+					
+				}
+			}
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+		
+			
+		//System.out.println("  "+statutCamion.valueOf("surZone"));
+		}*/
+
+	}
+}

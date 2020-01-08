@@ -1,0 +1,91 @@
+package Emergency;
+
+public class BankBDDSession {
+	
+	private String URLSessionSimulationFeux;
+	private String URLSessionSimulationCamions;
+	private String URLSessionEmergency;
+	
+	private String userSimuFeu;
+	private String passwdSimuFeu;
+	
+	private String userSimuCamion;
+	private String passwdSimuCamion;
+	
+	private String userEmergency;
+	private String passwdEmergency;
+	
+	private String RequeteDeleteIntervention;
+	private String RequeteRecuperationIntervention;
+	
+	private String requeteCamionIntervention;
+	private String RequeteCamion;
+	
+	private String RequeteDeleteAlerte;
+	private String RequeteRecuperationAlerte;
+	
+	public BankBDDSession()
+	{
+		this.URLSessionSimulationFeux = "jdbc:postgresql://localhost:5432/Simulation_feux";
+		this.URLSessionSimulationCamions = "jdbc:postgresql://localhost:5432/Simulation_camions";
+		this.URLSessionEmergency = "jdbc:postgresql://localhost:5432/Emergency";
+		
+		this.userSimuFeu = "simu_feux";
+		this.passwdSimuFeu = "simu_feux";
+		
+		this.userSimuCamion = "simu_camions";
+		this.passwdSimuCamion = "simu_camions";
+		
+		this.userEmergency = "emergency";
+		this.passwdEmergency = "emergency";
+		
+		this.RequeteDeleteIntervention = "DELETE FROM Interventions WHERE idIntervention = "; 
+		
+	}
+	
+	public String getURLSessionSimulationFeux() 
+	{
+		return this.URLSessionSimulationFeux;
+	}
+	public String getURLSessionSimulationCamions() 
+	{
+		return this.URLSessionSimulationCamions;
+	}
+	public String getURLSessionEmergency()
+	{
+		return this.URLSessionEmergency;
+	}
+	public String getuserSimuFeu()
+	{
+		return this.userSimuFeu;
+	} 
+	public String getpasswdSimuFeu()
+	{
+		return this.passwdSimuFeu;
+	}
+	public String getuserSimuCamion()
+	{
+		return this.userSimuCamion;
+	}
+	public String getpasswdSimuCamion()
+	{
+		return this.passwdSimuCamion;
+	}
+	public String getuserEmergency()
+	{
+		return this.userEmergency;
+	}
+	public String getpasswdEmergency()
+	{
+		return this.passwdEmergency;
+	}
+
+	public String getRequeteDeleteIntervention() {
+		return this.RequeteDeleteIntervention;
+	}
+
+	
+	
+	
+
+}

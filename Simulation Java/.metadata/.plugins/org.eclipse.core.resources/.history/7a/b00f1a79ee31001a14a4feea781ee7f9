@@ -1,0 +1,26 @@
+package Emergency;
+
+
+public class Alerte {
+	
+	private Coordonnee position;
+	private Intensite taille;
+	private int idAlerte;
+	
+	public Alerte(Coordonnee position, Intensite taille, int idAlerte)
+	{
+		
+		this.position = position;
+		this.taille = taille;
+		this.idAlerte =idAlerte;
+	}
+	public int getIdFeu()
+	{
+		return this.idAlerte;
+	}
+	public Coordonnee getPosition()
+	{
+		return this.position;
+	}
+
+}

@@ -1,0 +1,21 @@
+package Emergency;
+
+import java.util.ArrayList;
+
+public class Caserne {
+	private String idCaserne;
+	private ArrayList<Camion> camionDispo;
+	private ArrayList<Camion> camionEnIntervention;
+	
+	public Caserne(ArrayList<Camion> camionDispo, String idCaserne)
+	{
+		this.idCaserne = idCaserne;
+		this.camionDispo = camionDispo;
+	}
+	
+	public void faireRentrerCamion()
+	{
+		
+	}
+	
+}

@@ -1,0 +1,118 @@
+package SimulationFeux;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class RequeteBDD {
+	
+	private Statement state;
+	private int resultatInsertUpdate;
+	private ResultSet resultatSelect;
+	private String requeteSQL;
+	private ResultSetMetaData resultMeta;
+	
+	public RequeteBDD(Connection connect)
+	{
+		try
+		{
+			this.state = connect.createStatement();
+			System.out.println("Statement effectif ! ");
+			
+			
+		} catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+		this.resultatInsertUpdate = 0;
+		this.resultatSelect = null;
+		this.resultMeta = null;
+		this.requeteSQL = "";	 
+		
+	}
+	public void fermetureStatement()
+	{
+		try
+		{
+			this.state.close();
+		} catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+	}
+	public void fermetureResult()
+	{
+		try
+		{
+			this.resultatSelect.close();
+		} catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	public ResultSet getResultatSelect()
+	{
+		return this.resultatSelect;
+	}
+	public int getResultatInsertUpdate()
+	{
+		return this.resultatInsertUpdate;
+	}
+	
+	public ResultSetMetaData getResultMeta()
+	{
+		return this.resultMeta;
+	}
+	
+	public void initResultMeta() 
+	{
+		try
+		{
+			this.resultMeta = this.resultatSelect.getMetaData();
+		} catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public String getRequeteSQL()
+	{
+		return this.requeteSQL;
+	}
+	public void setRequeteSQL(String nouvelleRequete)
+	{
+		this.requeteSQL = nouvelleRequete;
+	}
+	
+	public void insertionUpdateBDD()
+	{
+		try 
+		{	
+			this.resultatInsertUpdate = this.state.executeUpdate(this.requeteSQL);
+			System.out.println("Modificationn reussi");
+			
+		}catch (Exception e) 
+		{
+		     e.printStackTrace();
+		     
+		}
+		
+	}
+	
+	public void selectBDD()
+	{
+		try
+		{
+			this.resultatSelect = this.state.executeQuery(this.requeteSQL);
+			
+		}catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+	}
+		
+}

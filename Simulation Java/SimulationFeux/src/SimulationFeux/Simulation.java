@@ -65,6 +65,8 @@ public class Simulation {
 				{
 					for(int j = 0;j <listCamion.size(); j++)
 					{
+						System.out.println("pos camion"+listCamion.get(j).getPositionActuel().getLatitude());
+						System.out.println("pos camion"+listCamion.get(j).getPositionActuel().getLongitude());
 						if(listFeu.get(i).getPosition().equals(listCamion.get(j).getPositionActuel()))
 						{
 							listFeu.get(i).diminutionIntensiteFeu(3);

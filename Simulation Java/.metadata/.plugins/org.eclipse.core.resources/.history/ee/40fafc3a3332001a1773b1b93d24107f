@@ -1,0 +1,89 @@
+package Emergency;
+
+import java.util.ArrayList;
+
+
+public class SQLIntervention {
+	
+	private String requeteDeleteIntervention;
+	private String requeteRecuperationIntervention;
+	private RequeteBDD outil;
+	
+	public SQLIntervention(RequeteBDD outil)
+	{
+		
+		this.outil = outil;
+	}
+	
+	
+	
+	public String getRequeteDeleteIntervention() {
+		return requeteDeleteIntervention;
+	}
+
+
+
+	public void setRequeteDeleteIntervention(String requeteDeleteIntervention, Intervention intervention) {
+		this.requeteDeleteIntervention = requeteDeleteIntervention + intervention.getIdIntervention();
+	}
+
+
+	public void recuperationIntervention(String requeteSQL)
+	{
+		this.outil.setRequeteSQL(requeteSQL);
+		this.outil.selectBDD();
+	}
+	
+	public void suppressionInterventionDonnee(String requeteSQL)
+	{
+		this.outil.setRequeteSQL(requeteSQL);
+		this.outil.insertionUpdateDeleteBDD();
+	}
+	
+	public ArrayList<Intervention> generationIntervention(ArrayList<Camion> listCamions, ArrayList<Alerte> listAlertes)
+	{
+		ArrayList<Intervention> listInterventions = new ArrayList<Intervention>();
+		Camion camionTmp = null;
+		Alerte alerteTmp = null;
+		try
+		{
+			while(this.outil.getResultatSelect().next())
+		      {
+				for(int i = 0;i<listCamions.size();i++)
+				{
+					if(listCamions.get(i).getIdCamion() == this.outil.getResultatSelect().getString("idCamion"))
+					{
+						camionTmp = listCamions.get(i);
+					}
+				}
+				for(int i = 0;i<listAlertes.size();i++)
+				{
+					if(listAlertes.get(i).getIdAlerte() == this.outil.getResultatSelect().getInt("idAlertes"))
+					{
+						alerteTmp = listAlertes.get(i);
+					}
+				}
+				
+		      }
+		} catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+		
+		if(camionTmp != null && alerteTmp != null)
+		{
+			listInterventions.add(new Intervention(camionTmp, alerteTmp));
+		}
+		
+		return listInterventions;
+	}
+	
+	public void insertIterventionPrecise(Intervention intervention)
+	{
+		this.outil.setRequeteSQL("INSERT INTO Interventions VALUES("+intervention.getIdIntervention()+" , "
+															  +intervention.getAlerte().getIdAlerte()+", "
+															  +intervention.getCamion().getIdCamion()+")");
+		this.outil.insertionUpdateDeleteBDD();
+	}
+
+}

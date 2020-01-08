@@ -1,0 +1,48 @@
+package Emergency;
+
+import java.util.ArrayList;
+
+public class SQLIntervention {
+	
+	private String RequeteDeleteIntervention;
+	private String RequeteRecuperationIntervention;
+	private String RequeteRecuperationCamionAlertes;
+	private RequeteBDD outil;
+	
+	public SQLIntervention(RequeteBDD outil)
+	{
+		this.RequeteDeleteIntervention = "";
+		this.RequeteRecuperationIntervention="SELECT * FROM Interventions";
+		this.outil = outil;
+	}
+	
+	public void recuperationDonnee()
+	{
+		this.outil.setRequeteSQL(RequeteRecuperationIntervention);
+		this.outil.selectBDD();
+	}
+	
+	public void suppressionTouteLesAlerteDonnee()
+	{
+		this.outil.setRequeteSQL(RequeteDeleteIntervention);
+		this.outil.insertionUpdateBDD();
+	}
+	
+	public ArrayList<Intervention> generationIntervention()
+	{
+		ArrayList<Intervention> listInterventions = new ArrayList<Intervention>();	
+		try
+		{
+			while(this.outil.getResultatSelect().next())
+		      {
+				
+				//listInterventions.add(new Intervention(this.outil.getResultatSelect().getInt("idalerte"));
+		      }
+		} catch (Exception e) 
+		{
+			e.printStackTrace();
+		}					
+		return listInterventions;
+	}
+
+}

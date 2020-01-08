@@ -1,0 +1,13 @@
+package Emergency;
+
+public class Intervention {
+	private Camion camion;
+	private Alerte alerte;
+	
+	public Intervention(Camion camion, Alerte alerte)
+	{
+		this.camion = camion;
+		this.alerte = alerte;
+	}
+
+}
