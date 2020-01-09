@@ -1,0 +1,21 @@
+package Emergency;
+
+public enum statutCamion {
+	Disponible("Disponible"),
+	Aller("En route vers une intervention"),
+	retour("De retour d'une intervention"),
+	surZone("Sur zone");
+	
+	private String statut = "";
+	
+	statutCamion(String statut)
+	{
+		this.statut = statut;
+	}
+	
+	public String ToString()
+	{
+		return statut;
+	}
+
+}

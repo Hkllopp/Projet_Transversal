@@ -1,0 +1,96 @@
+package Emergency;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.concurrent.TimeUnit;
+
+public class EmergencyManager {
+
+	public static void main(String[] args) throws InterruptedException {
+		// TODO Auto-generated method stub
+		BankBDDSession bankRequeteLoginBDD= new BankBDDSession();
+		ArrayList<Alerte> listAlertes = new ArrayList<Alerte>();
+		ArrayList<Camion> listCamions = new ArrayList<Camion>();
+		
+		ArrayList<Intervention> listInterventions = new ArrayList<Intervention>();
+		
+		SessionBDD BDDEmergency = new SessionBDD(bankRequeteLoginBDD.getURLSessionEmergency(),
+				bankRequeteLoginBDD.getuserEmergency(),
+				bankRequeteLoginBDD.getpasswdEmergency());
+		
+		SessionBDD BDDsimulation_Camion = new SessionBDD(bankRequeteLoginBDD.getURLSessionSimulationCamions(),
+				bankRequeteLoginBDD.getuserEmergency(),
+				bankRequeteLoginBDD.getpasswdEmergency());		
+									
+		
+		RequeteBDD SQLAlerte = new RequeteBDD(BDDEmergency.getConnect());
+		SQLAlerte alertes = new SQLAlerte(SQLAlerte);
+		
+		RequeteBDD SQLCamion = new RequeteBDD(BDDEmergency.getConnect());
+		SQLCamion camions = new SQLCamion(SQLCamion);
+		
+		RequeteBDD SQLIntervention = new RequeteBDD(BDDEmergency.getConnect());
+		SQLIntervention interventions = new SQLIntervention(SQLIntervention);
+		
+		
+		int nbInterParAlerte = 0;
+		Intervention newIntervention;
+		
+		while(true)
+		{
+			alertes.recuperationAlerte(bankRequeteLoginBDD.getRequeteRecuperationAllAlerte());
+			listAlertes = alertes.generationAlerte();
+			
+			camions.recuperationCamion(bankRequeteLoginBDD.getRequeteRecuperationAllCamion());
+			listCamions = camions.generationCamion();	
+			
+			Caserne caserneLyon = new Caserne(listCamions, "LYO");
+			
+			interventions.recuperationIntervention(bankRequeteLoginBDD.getRequeteRecuperationAllIntervention());
+			listInterventions = interventions.generationIntervention(listCamions, listAlertes);
+			
+			
+			for(int i = 0;i < listAlertes.size();i++)
+			{
+				for(int j = 0; j < listInterventions.size(); j++)
+				{
+					if(listAlertes.get(i).getIdAlerte() == listInterventions.get(j).getAlerte().getIdAlerte())
+					{
+						nbInterParAlerte++;
+					}
+				}
+				if(nbInterParAlerte < 1)
+				{
+					
+					newIntervention = new Intervention(caserneLyon.getCamionDispo().get(0), listAlertes.get(i));
+					camions.updateCamion(bankRequeteLoginBDD.getRequeteUpdateCamionAller(), caserneLyon.getCamionDispo().get(0));
+					caserneLyon.faireSortirCamion(caserneLyon.getCamionDispo().get(0));
+					interventions.insertIterventionPrecise(bankRequeteLoginBDD.getRequeteInsertIntervention(), newIntervention);	
+				}
+				newIntervention = null;
+				nbInterParAlerte = 0;
+			}
+			
+			
+			
+			for(int j = 0; j < listInterventions.size(); j++)
+			{
+				
+				camions.setRequeteCamionIntervention(listInterventions.get(j));
+				
+				if(!(camions.generationCamion().isEmpty()))
+				{
+					interventions.suppressionIntervention(bankRequeteLoginBDD.getRequeteDeleteInterventionUnique(), listInterventions.get(j));
+					
+					camions.updateCamion(bankRequeteLoginBDD.getRequeteUpdateCamionDispo(), camions.generationCamion().get(0));
+					caserneLyon.faireRentrerCamion(camions.generationCamion().get(0));
+				}
+				
+				
+			}
+			
+			TimeUnit.SECONDS.sleep(2);
+			
+		}
+	}
+}

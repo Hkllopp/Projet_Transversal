@@ -1,0 +1,29 @@
+package Emergency;
+
+public class Camion {
+	private String idCamion;
+	private Coordonnee positionActuel;
+	private statutCamion statut;
+	
+	public Camion()
+	{
+		
+		this.positionActuel = new Coordonnee(0, 0);
+		this.statut = statutCamion.Disponible;
+	}
+	public Camion(String idCamion, Coordonnee positionActuel, statutCamion statut)
+	{
+		this.idCamion = idCamion;
+		this.positionActuel = positionActuel;
+		this.statut = statut;
+	}
+	public Coordonnee getPositionActuel()
+	{
+		return this.positionActuel;
+	}
+	public void setHauteur(Coordonnee positionActuel)
+	{
+		this.positionActuel = positionActuel;
+	}
+
+}

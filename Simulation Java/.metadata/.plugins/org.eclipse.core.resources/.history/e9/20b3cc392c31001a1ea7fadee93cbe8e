@@ -1,0 +1,39 @@
+package SimulationFeux;
+
+import java.util.ArrayList;
+
+public class SQLCamionsSurZone {
+	
+	private String RequeteCamionsSurZone;
+	private RequeteBDD outil;
+	
+	public SQLCamionsSurZone(RequeteBDD outil)
+	{
+		this.RequeteCamionsSurZone = "SELECT * FROM capteurs";
+		this.outil = outil;
+	}
+	public void recuperationDonnee()
+	{
+		this.outil.setRequeteSQL(RequeteCamionsSurZone);
+		this.outil.selectBDD();
+	}
+	public ArrayList<Camion> generationCamionSurZone()
+	{
+		ArrayList<Camion> listCamions = new ArrayList<Camion>();	
+		try
+		{
+			while(this.outil.getResultatSelect().next())
+		      {         
+				listCamions.add(new Capteur(this.outil.getResultatSelect().getInt("idCapteur"),
+		        		new Coordonnee(this.outil.getResultatSelect().getInt("coordXCapteur"),
+		        						this.outil.getResultatSelect().getInt("coordYCapteur")),
+		        						this.outil.getResultatSelect().getBoolean("activation")));
+		      }
+		} catch (Exception e) 
+		{
+			e.printStackTrace();
+		}					
+		return listCapteurs;
+	}
+
+}

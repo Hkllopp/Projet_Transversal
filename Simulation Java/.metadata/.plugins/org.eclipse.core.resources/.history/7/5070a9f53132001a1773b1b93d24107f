@@ -1,0 +1,127 @@
+package Emergency;
+
+public class BankBDDSession {
+	
+	private String URLSessionSimulationFeux;
+	private String URLSessionSimulationCamions;
+	private String URLSessionEmergency;
+	
+	private String userSimuFeu;
+	private String passwdSimuFeu;
+	
+	private String userSimuCamion;
+	private String passwdSimuCamion;
+	
+	private String userEmergency;
+	private String passwdEmergency;
+	
+	private String requeteDeleteAllAlerte;
+	private String requeteRecuperationAllAlerte;
+	
+	private String requeteCamionIntervention;
+	private String requeteRecuperationAllCamion;
+	private String requeteUpdateCamion;
+	
+	private String requeteDeleteAllIntervention;
+	private String requeteRecuperationAllIntervention;
+	private String requeteDeleteInterventionUnique;
+	
+	
+	
+	
+	
+	public BankBDDSession()
+	{
+		this.URLSessionSimulationFeux = "jdbc:postgresql://localhost:5432/Simulation_feux";
+		this.URLSessionSimulationCamions = "jdbc:postgresql://localhost:5432/Simulation_camions";
+		this.URLSessionEmergency = "jdbc:postgresql://localhost:5432/Emergency";
+		
+		this.userSimuFeu = "simu_feux";
+		this.passwdSimuFeu = "simu_feux";
+		
+		this.userSimuCamion = "simu_camions";
+		this.passwdSimuCamion = "simu_camions";
+		
+		this.userEmergency = "emergency";
+		this.passwdEmergency = "emergency";
+		
+		//Requete Alertes sur BDD emergency
+		this.requeteRecuperationAllAlerte = "SELECT * FROM Alertes";
+		this.requeteDeleteAllAlerte = "DELETE FROM Alertes";
+		
+		//Requete Interventions sur BDD emergency
+		this.requeteDeleteAllIntervention = "DELETE FROM Interventions";
+		this.requeteRecuperationAllIntervention="SELECT * FROM Interventions";
+		this.requeteDeleteInterventionUnique = "DELETE FROM Interventions WHERE idIntervention = "; 
+		
+		
+		//Requete camions sur BDD Emergency
+		this.requeteRecuperationAllCamion= "SELECT * FROM camions";
+		this.requeteUpdateCamion = "UPDATE camions set statut = " + statutCamion.valueOf("disponible")+ " WHERE idCamion = ";
+		
+	}
+	
+	public String getURLSessionSimulationFeux() 
+	{
+		return this.URLSessionSimulationFeux;
+	}
+	public String getURLSessionSimulationCamions() 
+	{
+		return this.URLSessionSimulationCamions;
+	}
+	public String getURLSessionEmergency()
+	{
+		return this.URLSessionEmergency;
+	}
+	public String getuserSimuFeu()
+	{
+		return this.userSimuFeu;
+	} 
+	public String getpasswdSimuFeu()
+	{
+		return this.passwdSimuFeu;
+	}
+	public String getuserSimuCamion()
+	{
+		return this.userSimuCamion;
+	}
+	public String getpasswdSimuCamion()
+	{
+		return this.passwdSimuCamion;
+	}
+	public String getuserEmergency()
+	{
+		return this.userEmergency;
+	}
+	public String getpasswdEmergency()
+	{
+		return this.passwdEmergency;
+	}
+	
+	public String getRequeteDeleteAllAlerte() {
+		return this.requeteDeleteAllAlerte;
+	}
+
+	public String getRequeteRecuperationAllAlerte() {
+		return this.requeteRecuperationAllAlerte;
+	}
+	
+	public String getRequeteRecuperationAllCamion() {
+		return this.requeteRecuperationAllCamion;
+	}
+
+
+	public String getRequeteUpdateCamion() {
+		return this.requeteUpdateCamion;
+	}
+
+	public String getRequeteRecuperationAllIntervention() {
+		return this.requeteRecuperationAllIntervention;
+	}
+
+	
+	
+	
+	
+
+}

@@ -1,0 +1,27 @@
+package SimulationFeux;
+
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.util.ArrayList;
+
+public class Simulation {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		SessionBDD BDD = new SessionBDD();
+		RequeteBDD SQL = new RequeteBDD(BDD.getConnect());
+		SQLCapteurs capt = new SQLCapteurs(SQL);
+		capt.recuperationDonnee();
+		ArrayList<Capteur> listCapteurs = capt.generationCapteur();
+		
+		
+		
+			for(int i = 0; i < listCapteurs.size(); i++)
+			{
+				 System.out.println("   " + listCapteurs.get(i).getActivation()+"  ");
+			}		
+		
+	}
+
+}

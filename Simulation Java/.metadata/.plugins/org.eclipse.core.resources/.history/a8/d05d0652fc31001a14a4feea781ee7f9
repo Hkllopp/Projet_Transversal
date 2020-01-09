@@ -1,0 +1,31 @@
+package Emergency;
+
+import java.util.ArrayList;
+
+public class EmergencyManager {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		BankBDDSession infoBDD = new BankBDDSession();
+		ArrayList<Alerte> ListAlertes = new ArrayList<Alerte>();
+		
+		SessionBDD BDDEmergency = new SessionBDD(infoBDD.getURLSessionEmergency(),
+												 infoBDD.getuserEmergency(),
+												 infoBDD.getpasswdEmergency());
+		RequeteBDD SQLEmergency = new RequeteBDD(BDDEmergency.getConnect());
+		SQLAlerte Alertes = new SQLAlerte(SQLEmergency);
+		
+		while(true)
+		{
+			Alertes.recuperationDonnee();
+			ListAlertes = Alertes.generationAlerte();
+			
+			
+			
+			
+			
+		}
+				
+	}
+
+}

@@ -29,24 +29,27 @@ public class connectionBDDTest {
 		      //L'objet ResultSet contient le résultat de la requête SQL
 		      //state.executeUpdate("INSERT into feux(localisation, intensite) values('(46,23)',3)");
 		      //state.executeUpdate("INSERT into camions(position_actuel, statut) values('(0,0)','en attente')");
-		      ResultSet result = state.executeQuery("SELECT * FROM capteurs");
+		      //ResultSet result = state.executeQuery("SELECT * FROM capteurs");
+		      ResultSet result = state.executeQuery("SELECT count(idAlerte) FROM Alertes WHERE idAlerte =" +4);
 		      //On récupère les MetaData
-		      ResultSetMetaData resultMeta = result.getMetaData();
+		      //ResultSetMetaData resultMeta = result.getMetaData();
 		         
-		      System.out.println("\n**********************************");
+		      //System.out.println("\n**********************************");
 		      //On affiche le nom des colonnes
-		      for(int i = 1; i <= resultMeta.getColumnCount(); i++)
-		        System.out.print("\t" + resultMeta.getColumnName(i).toUpperCase() + "\t *");
+		      //for(int i = 1; i <= resultMeta.getColumnCount(); i++)
+		       //System.out.print("\t" + resultMeta.getColumnName(i).toUpperCase() + "\t *");
 		         
-		      System.out.println("\n**********************************");
+		      //System.out.println("\n**********************************");
 		         
-		      while(result.next()){         
-		        for(int i = 1; i <= resultMeta.getColumnCount(); i++)
-		          System.out.print("\t" + result.getObject(i).toString() + "\t |");
+		      //while(result.next()){         
+		        //for(int i = 1; i <= resultMeta.getColumnCount(); i++)
+		          //System.out.print("\t" + result.getObject(i).toString() + "\t |");
 		            
-		        System.out.println("\n---------------------------------");
+		        //System.out.println("\n---------------------------------");
 
-		      }
+		     // }
+		      result.next();
+		      System.out.println((int)result.getInt("count"));
 
 		      result.close();
 		      state.close();        

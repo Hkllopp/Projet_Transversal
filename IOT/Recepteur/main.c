@@ -36,6 +36,7 @@ static volatile uint8_t buffer_receive[RF_BUFF_LEN] = ""; // buffer de reception
 static volatile uint8_t buffer_send[RF_BUFF_LEN] = ""; // buffer d'envoi
 volatile uint8_t buffer[1024] = ""; //buffer
 int ptr = 0; // permet de refragmenter un message envoyé par radio
+int fin = 0;
 
 static volatile uint32_t cc_tx = 0; // variable pour déclencher une transmition radio
 static volatile uint8_t cc_ptr = 0; // variable pour remplir le buffer
@@ -164,7 +165,7 @@ void handle_rf_rx_data(void)
     	//calcul du checksum 
     	if (checksum(buffer_receive)==data[35])
     	{
-    		//uprintf(UART0, "%s", buffer_receive);
+    		//uprintf(UART0, "%s", buffer_receive); // affichage des fragments
             for(int i = 0; i<strlen(buffer_receive); i++){ // on refragmente le message
                 if(buffer_receive[i] != '\n'){
                     buffer[i+ptr] = buffer_receive[i];
@@ -174,15 +175,20 @@ void handle_rf_rx_data(void)
                     for(int j=0; j<strlen(buffer);j++){ // on envoie le message entier sur la liaison UART
                         uprintf(UART0, "%c",buffer[j]);
                     }
-                    uprintf(UART0, "done");
                     ptr=0;
+                    fin = 1;
                     for(int k=0; k<sizeof(buffer);k++){
 					    buffer[k]=0;
 				    }
                     break;
                 }
             }
-            ptr += 32;
+            if(fin == 1){
+                fin = 0;
+            }
+            else{
+                ptr += 32;
+            }
     	}
     	
    	}
