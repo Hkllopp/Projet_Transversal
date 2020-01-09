@@ -17,24 +17,24 @@ public class EmergencyManager {
 		
 		SessionBDD BDDEmergency = new SessionBDD(bankRequeteLoginBDD.getURLSessionEmergency(),
 				bankRequeteLoginBDD.getuserEmergency(),
-				bankRequeteLoginBDD.getpasswdEmergency());
+				bankRequeteLoginBDD.getpasswdEmergency());//Ouverture sessions BDD Emergency
 		
 		SessionBDD BDDsimulation_Camion = new SessionBDD(bankRequeteLoginBDD.getURLSessionSimulationCamions(),
 				bankRequeteLoginBDD.getuserEmergency(),
-				bankRequeteLoginBDD.getpasswdEmergency());		
+				bankRequeteLoginBDD.getpasswdEmergency());	//Ouverture sessions BDD Simu camion
 									
 		
 		RequeteBDD SQLAlerte = new RequeteBDD(BDDEmergency.getConnect());
-		SQLAlerte alertes = new SQLAlerte(SQLAlerte);
+		SQLAlerte alertes = new SQLAlerte(SQLAlerte); //Generation outil de requete Alerte BDD Emergency
 		
 		RequeteBDD SQLCamionEmergency = new RequeteBDD(BDDEmergency.getConnect());
-		SQLCamion camionsEmergency = new SQLCamion(SQLCamionEmergency);
+		SQLCamion camionsEmergency = new SQLCamion(SQLCamionEmergency);//Generation outil de requete Camion BDD Emergency
 		
 		RequeteBDD SQLCamionSimuCamion = new RequeteBDD(BDDsimulation_Camion.getConnect());
-		SQLCamion camionsSimuCamion = new SQLCamion(SQLCamionSimuCamion);
+		SQLCamion camionsSimuCamion = new SQLCamion(SQLCamionSimuCamion);//Generation outil de requete Camion BDD Simu camion
 		
 		RequeteBDD SQLIntervention = new RequeteBDD(BDDEmergency.getConnect());
-		SQLIntervention interventions = new SQLIntervention(SQLIntervention);
+		SQLIntervention interventions = new SQLIntervention(SQLIntervention);//Generation outil de requete Intervention BDD Emergency
 		
 		
 		int nbInterParAlerte = 0;
@@ -43,38 +43,42 @@ public class EmergencyManager {
 		while(true)
 		{
 			alertes.recuperationAlerte(bankRequeteLoginBDD.getRequeteRecuperationAllAlerte());
-			listAlertes = alertes.generationAlerte();
+			listAlertes = alertes.generationAlerte();//Genration liste Alerte
 			
 			camionsEmergency.recuperationCamion(bankRequeteLoginBDD.getRequeteRecuperationAllCamion());
-			listCamionsEmergency = camionsEmergency.generationCamion();
+			listCamionsEmergency = camionsEmergency.generationCamion();//Generation Liste camion
 			
 			camionsSimuCamion.recuperationCamion(bankRequeteLoginBDD.getRequeteRecuperationAllCamion());
-			listCamionsSimulation = camionsSimuCamion.generationCamion();
+			listCamionsSimulation = camionsSimuCamion.generationCamion(); //Generation liste camion BDD Simulation
 			
-			Caserne caserneLyon = new Caserne(listCamionsEmergency, "LYO");
+			Caserne caserneLyon = new Caserne(listCamionsEmergency, "LYO");//Generation liste Caserne
 			
 			interventions.recuperationIntervention(bankRequeteLoginBDD.getRequeteRecuperationAllIntervention());
-			listInterventions = interventions.generationIntervention(listCamionsEmergency, listAlertes);
+			listInterventions = interventions.generationIntervention(listCamionsEmergency, listAlertes);//Generation liste intervention
 			
 			
-			for(int i = 0;i < listAlertes.size();i++)
+			for(int i = 0;i < listAlertes.size();i++)//On parcours toutes les alertes
 			{
 				//TimeUnit.SECONDS.sleep(2);
-				for(int j = 0; j < listInterventions.size(); j++)
+				for(int j = 0; j < listInterventions.size(); j++)//Pour chaque alerte on parcours toutes les interventions
 				{
-					if(listAlertes.get(i).getIdAlerte() == listInterventions.get(j).getAlerte().getIdAlerte())
+					if(listAlertes.get(i).getIdAlerte() == listInterventions.get(j).getAlerte().getIdAlerte())//Si ya un match entre l'idAlerte de l'intervention et l'iD alerte de l'alerte
 					{
-						nbInterParAlerte++;
+						nbInterParAlerte++;//On augmente le nombre Intervention par alerte de 1
 					}
 				}
-				if(nbInterParAlerte < 1)
+				if(nbInterParAlerte < 1)//Si il n'y a pas d'intervention sur une alerte on l'a crée
 				{
-					if(!(caserneLyon.getCamionDispo().isEmpty()))
+					if(!(caserneLyon.getCamionDispo().isEmpty()))//On vérifie que des camions sont dispo
 					{
 						camionsEmergency.updateCamion(bankRequeteLoginBDD.getRequeteUpdateCamionAller(), caserneLyon.getCamionDispo().get(0));
+						//On update le statut du camion à aller
 						newIntervention = new Intervention(caserneLyon.getCamionDispo().get(0), listAlertes.get(i));
+						//On crée l'interventions
 						caserneLyon.faireSortirCamion(caserneLyon.getCamionDispo().get(0));
+						//On fait sortir de le camion de la caserne
 						interventions.insertIterventionPrecise(bankRequeteLoginBDD.getRequeteInsertIntervention(), newIntervention);
+						//On insert l'intervention en BDD
 					}
 						
 				}
@@ -84,17 +88,17 @@ public class EmergencyManager {
 			
 			
 			
-			for(int j = 0; j < listInterventions.size(); j++)
+			for(int j = 0; j < listInterventions.size(); j++)//On parcours la liste des interventions
 			{
 				
-				camionsSimuCamion.setRequeteCamionIntervention(listInterventions.get(j));
+				camionsSimuCamion.setRequeteCamionIntervention(listInterventions.get(j));//On parcours la liste des camions associé à cette intervention mais sur la BDD simu camion mais qui sont pret à rentrer en caserne
 				
-				if(!(camionsSimuCamion.generationCamion().isEmpty()))
+				if(!(camionsSimuCamion.generationCamion().isEmpty()))//Si jamais ya des camions pret à rentrer
 				{
-					interventions.suppressionIntervention(bankRequeteLoginBDD.getRequeteDeleteInterventionUnique(), listInterventions.get(j));
+					interventions.suppressionIntervention(bankRequeteLoginBDD.getRequeteDeleteInterventionUnique(), listInterventions.get(j));//On supprime leur intervention en BDD
 					
-					camionsEmergency.updateCamion(bankRequeteLoginBDD.getRequeteUpdateCamionDispo(), camionsSimuCamion.generationCamion().get(0));
-					caserneLyon.faireRentrerCamion(camionsSimuCamion.generationCamion().get(0));
+					camionsEmergency.updateCamion(bankRequeteLoginBDD.getRequeteUpdateCamionDispo(), camionsSimuCamion.generationCamion().get(0));//On met à jour le statut du camion
+					caserneLyon.faireRentrerCamion(camionsSimuCamion.generationCamion().get(0));//On le fait rentrer en caserne
 				}
 				
 				
