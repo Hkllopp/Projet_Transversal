@@ -2,7 +2,7 @@ package Emergency;
 
 public class Camion {
 	private String idCamion;
-	private String idCaserne;
+	//private String idCaserne;
 	private Coordonnee positionActuel;
 	private statutCamion statut;
 	
@@ -29,5 +29,11 @@ public class Camion {
 	{
 		return this.idCamion;
 	}
-
+	public statutCamion getStatut() {
+		return this.statut;
+	}
+	public void setStatut(statutCamion statut) {
+		this.statut = statut;
+	}
+	
 }

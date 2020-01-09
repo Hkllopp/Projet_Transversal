@@ -10,7 +10,8 @@ public class EmergencyManager {
 		// TODO Auto-generated method stub
 		BankBDDSession bankRequeteLoginBDD= new BankBDDSession();
 		ArrayList<Alerte> listAlertes = new ArrayList<Alerte>();
-		ArrayList<Camion> listCamions = new ArrayList<Camion>();
+		ArrayList<Camion> listCamionsEmergency = new ArrayList<Camion>();
+		ArrayList<Camion> listCamionsSimulation = new ArrayList<Camion>();
 		
 		ArrayList<Intervention> listInterventions = new ArrayList<Intervention>();
 		
@@ -26,59 +27,39 @@ public class EmergencyManager {
 		RequeteBDD SQLAlerte = new RequeteBDD(BDDEmergency.getConnect());
 		SQLAlerte alertes = new SQLAlerte(SQLAlerte);
 		
-		RequeteBDD SQLCamion = new RequeteBDD(BDDEmergency.getConnect());
-		SQLCamion camions = new SQLCamion(SQLCamion);
+		RequeteBDD SQLCamionEmergency = new RequeteBDD(BDDEmergency.getConnect());
+		SQLCamion camionsEmergency = new SQLCamion(SQLCamionEmergency);
+		
+		RequeteBDD SQLCamionSimuCamion = new RequeteBDD(BDDsimulation_Camion.getConnect());
+		SQLCamion camionsSimuCamion = new SQLCamion(SQLCamionSimuCamion);
 		
 		RequeteBDD SQLIntervention = new RequeteBDD(BDDEmergency.getConnect());
 		SQLIntervention interventions = new SQLIntervention(SQLIntervention);
 		
 		
-		
-		
-		
-		//camions.recuperationDonnee();
-		listCamions = camions.generationCamion();
-		Caserne caserneLyon = new Caserne("LYO");
-		
-		//caserneLyon.setCamionDispo(listCamions);
-		
 		int nbInterParAlerte = 0;
 		Intervention newIntervention;
 		
-		//while(true)
-		//{
+		while(true)
+		{
 			alertes.recuperationAlerte(bankRequeteLoginBDD.getRequeteRecuperationAllAlerte());
 			listAlertes = alertes.generationAlerte();
 			
-			for(int i = 0; i < listAlertes.size(); i++)
-			{
-				System.out.println("Alerte "+listAlertes.get(i).getIdAlerte());
-			}
+			camionsEmergency.recuperationCamion(bankRequeteLoginBDD.getRequeteRecuperationAllCamion());
+			listCamionsEmergency = camionsEmergency.generationCamion();
 			
-			camions.recuperationCamion(bankRequeteLoginBDD.getRequeteRecuperationAllCamion());
-			listCamions = camions.generationCamion();
+			camionsSimuCamion.recuperationCamion(bankRequeteLoginBDD.getRequeteRecuperationAllCamion());
+			listCamionsSimulation = camionsSimuCamion.generationCamion();
 			
-			for(int i = 0; i < listCamions.size(); i++)
-			{
-				System.out.println("Camions "+listCamions.get(i).getIdCamion());
-			}
-			
-			
+			Caserne caserneLyon = new Caserne(listCamionsEmergency, "LYO");
 			
 			interventions.recuperationIntervention(bankRequeteLoginBDD.getRequeteRecuperationAllIntervention());
-			listInterventions = interventions.generationIntervention(listCamions, listAlertes);
+			listInterventions = interventions.generationIntervention(listCamionsEmergency, listAlertes);
 			
-			System.out.println(listInterventions.isEmpty());
-			for(int i = 0; i < listInterventions.size(); i++)
+			
+			for(int i = 0;i < listAlertes.size();i++)
 			{
-				
-				System.out.println("Interventions id : "+listInterventions.get(i).getIdIntervention()+"Interventions idAlertes : "+listInterventions.get(i).getAlerte().getIdAlerte()+"Interventions idCamion : "+listInterventions.get(i).getCamion().getIdCamion());
-			}
-			
-			
-			/*
-			for(int i = 0;i <listAlertes.size();i++)
-			{
+				//TimeUnit.SECONDS.sleep(2);
 				for(int j = 0; j < listInterventions.size(); j++)
 				{
 					if(listAlertes.get(i).getIdAlerte() == listInterventions.get(j).getAlerte().getIdAlerte())
@@ -88,45 +69,43 @@ public class EmergencyManager {
 				}
 				if(nbInterParAlerte < 1)
 				{
-					
-					newIntervention = new Intervention(caserneLyon.getCamionDispo().get(1), listAlertes.get(i));
-					caserneLyon.faireSortirCamion(caserneLyon.getCamionDispo().get(1));
-					interventions.insertIterventionPrecise(newIntervention);	
+					if(!(caserneLyon.getCamionDispo().isEmpty()))
+					{
+						camionsEmergency.updateCamion(bankRequeteLoginBDD.getRequeteUpdateCamionAller(), caserneLyon.getCamionDispo().get(0));
+						newIntervention = new Intervention(caserneLyon.getCamionDispo().get(0), listAlertes.get(i));
+						caserneLyon.faireSortirCamion(caserneLyon.getCamionDispo().get(0));
+						interventions.insertIterventionPrecise(bankRequeteLoginBDD.getRequeteInsertIntervention(), newIntervention);
+					}
+						
 				}
 				newIntervention = null;
+				nbInterParAlerte = 0;
 			}
+			
+			
 			
 			for(int j = 0; j < listInterventions.size(); j++)
 			{
 				
-				camions.setRequeteCamionIntervention(listInterventions.get(j));
-				camions.recuperationDonnee(camions.getRequeteCamionIntervention());
-				if(!(camions.generationCamion().isEmpty()))
+				camionsSimuCamion.setRequeteCamionIntervention(listInterventions.get(j));
+				
+				if(!(camionsSimuCamion.generationCamion().isEmpty()))
 				{
-					interventions.setRequeteDeleteIntervention(infoBDD.getRequeteDeleteIntervention(), listInterventions.get(j));
-					interventions.suppressionTouteLesInterventionDonnee();
+					interventions.suppressionIntervention(bankRequeteLoginBDD.getRequeteDeleteInterventionUnique(), listInterventions.get(j));
 					
-					camions.updateCamion(infoBDD.getRequeteUpdateCamion(), camions.generationCamion().get(1));
-					
+					camionsEmergency.updateCamion(bankRequeteLoginBDD.getRequeteUpdateCamionDispo(), camionsSimuCamion.generationCamion().get(0));
+					caserneLyon.faireRentrerCamion(camionsSimuCamion.generationCamion().get(0));
 				}
 				
 				
 			}
+			SQLAlerte.fermetureResult();
+			SQLCamionEmergency.fermetureResult();
+			SQLCamionSimuCamion.fermetureResult();
+			SQLIntervention.fermetureResult();
 			
-			TimeUnit.SECONDS.sleep(2);
+			//TimeUnit.SECONDS.sleep(2);
 			
-			
-			*/
-			
-			
-			
-			
-			
-			
-		
-			
-		//System.out.println("  "+statutCamion.valueOf("surZone"));
-		}*/
-
+		}
 	}
 }

@@ -32,7 +32,7 @@ public class SQLCamion
 	
 	public void updateCamion(String requeteUpdate, Camion camion)
 	{
-		this.outil.setRequeteSQL(requeteUpdate + camion.getIdCamion());
+		this.outil.setRequeteSQL(requeteUpdate +"'" +camion.getIdCamion()+"'");
 		this.outil.insertionUpdateDeleteBDD();
 	}
 	

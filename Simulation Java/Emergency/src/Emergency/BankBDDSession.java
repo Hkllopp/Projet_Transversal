@@ -20,7 +20,8 @@ public class BankBDDSession {
 	
 	private String requeteCamionIntervention;
 	private String requeteRecuperationAllCamion;
-	private String requeteUpdateCamion;
+	private String requeteUpdateCamionDispo;
+	private String requeteUpdateCamionAller;
 	
 	private String requeteDeleteAllIntervention;
 	private String requeteRecuperationAllIntervention;
@@ -52,8 +53,9 @@ public class BankBDDSession {
 		
 		//Requete camions sur BDD Emergency
 		this.requeteRecuperationAllCamion= "SELECT * FROM camions";
-		this.requeteUpdateCamion = "UPDATE camions set statut = " + statutCamion.valueOf("disponible")+ " WHERE idCamion = ";
-		
+		this.requeteUpdateCamionDispo = "UPDATE camions set statut = '" + statutCamion.valueOf("disponible")+"' WHERE idCamion = ";
+		this.requeteUpdateCamionAller = "UPDATE camions set statut = '"+ statutCamion.valueOf("aller")+"' WHERE idCamion = ";
+		//+ statutCamion.valueOf("aller")+
 		//Requete Interventions sur BDD emergency
 		this.requeteDeleteAllIntervention = "DELETE FROM Interventions";
 		this.requeteRecuperationAllIntervention="SELECT * FROM Interventions";
@@ -115,8 +117,13 @@ public class BankBDDSession {
 	}
 
 
-	public String getRequeteUpdateCamion() {
-		return this.requeteUpdateCamion;
+	public String getRequeteUpdateCamionDispo() {
+		return this.requeteUpdateCamionDispo;
+	}
+	
+	
+	public String getRequeteUpdateCamionAller() {
+		return this.requeteUpdateCamionAller;
 	}
 
 	public String getRequeteDeleteAllIntervention() {

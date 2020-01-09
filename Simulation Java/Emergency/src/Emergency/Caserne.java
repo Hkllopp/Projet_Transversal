@@ -3,15 +3,31 @@ package Emergency;
 import java.util.ArrayList;
 
 public class Caserne {
+	
 	private String idCaserne;
 	private ArrayList<Camion> camionDispo;
 	private ArrayList<Camion> camionEnIntervention;
 	
-	public Caserne(ArrayList<Camion> camionDispo, String idCaserne)
+	public Caserne(ArrayList<Camion> camion, String idCaserne)
 	{
 		this.idCaserne = idCaserne;
-		this.camionDispo = camionDispo;
+		this.camionDispo = new ArrayList<Camion>();
 		this.camionEnIntervention = new ArrayList<Camion>();
+		
+		for(int i = 0; i < camion.size(); i++)
+		{
+			if(camion.get(i).getStatut() == statutCamion.valueOf("disponible"))
+			{
+				this.camionDispo.add(camion.get(i));
+			}
+			else
+			{
+				this.camionEnIntervention.add(camion.get(i));
+			}
+			
+		}
+		
+		
 	}
 	
 	public Caserne(String idCaserne)
@@ -41,5 +57,24 @@ public class Caserne {
 		this.camionDispo.remove(camion);
 		this.camionEnIntervention.add(camion);
 	}
+	public void faireRentrerCamion(Camion camion)
+	{
+		this.camionDispo.add(camion);
+		this.camionEnIntervention.remove(camion);
+	}
+
+	public String getIdCaserne() {
+		return this.idCaserne;
+	}
+
+	public void setIdCaserne(String idCaserne) {
+		this.idCaserne = idCaserne;
+	}
+
+	public ArrayList<Camion> getCamionEnIntervention() {
+		return this.camionEnIntervention;
+	}
+	
+	
 	
 }

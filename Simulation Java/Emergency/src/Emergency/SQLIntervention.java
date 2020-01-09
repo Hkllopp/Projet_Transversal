@@ -6,7 +6,6 @@ import java.util.ArrayList;
 public class SQLIntervention {
 	
 	private String requeteDeleteIntervention;
-	private String requeteRecuperationIntervention;
 	private RequeteBDD outil;
 	
 	public SQLIntervention(RequeteBDD outil)
@@ -34,9 +33,9 @@ public class SQLIntervention {
 		this.outil.selectBDD();
 	}
 	
-	public void suppressionInterventionDonnee(String requeteSQL)
+	public void suppressionIntervention(String requeteSQL, Intervention intervention)
 	{
-		this.outil.setRequeteSQL(requeteSQL);
+		this.outil.setRequeteSQL(requeteSQL+intervention.getIdIntervention());
 		this.outil.insertionUpdateDeleteBDD();
 	}
 	
@@ -84,11 +83,11 @@ public class SQLIntervention {
 		return listInterventions;
 	}
 	
-	public void insertIterventionPrecise(Intervention intervention)
+	public void insertIterventionPrecise(String requeteSQL, Intervention intervention)
 	{
-		this.outil.setRequeteSQL("INSERT INTO Interventions VALUES("+intervention.getIdIntervention()+" , "
-															  +intervention.getAlerte().getIdAlerte()+", "
-															  +intervention.getCamion().getIdCamion()+")");
+		this.outil.setRequeteSQL(requeteSQL+intervention.getIdIntervention()+" , "
+											+intervention.getAlerte().getIdAlerte()+", "
+											+"'"+intervention.getCamion().getIdCamion()+"'"+")");
 		this.outil.insertionUpdateDeleteBDD();
 	}
 
