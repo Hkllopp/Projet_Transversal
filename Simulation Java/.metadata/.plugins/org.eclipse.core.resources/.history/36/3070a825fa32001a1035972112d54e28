@@ -9,7 +9,7 @@ public class SQLCamionsSurZone {
 	
 	public SQLCamionsSurZone(RequeteBDD outil)
 	{
-		this.RequeteCamionsSurZone = "SELECT * FROM camions WHERE statut='surZone'";
+		this.RequeteCamionsSurZone = "SELECT * FROM camions WHERE statut='sur zone'";
 		this.outil = outil;
 	}
 	public void recuperationDonnee()

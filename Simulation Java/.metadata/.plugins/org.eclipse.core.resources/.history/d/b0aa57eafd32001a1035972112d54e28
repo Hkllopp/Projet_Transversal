@@ -15,8 +15,6 @@ public class BankBDDSession {
 	private String userEmergency;
 	private String passwdEmergency;
 	
-	private String requetRecupAllAlertes;
-	
 	public BankBDDSession()
 	{
 		this.URLSessionSimulationFeux = "jdbc:postgresql://localhost:5432/Simulation_feux";
@@ -31,8 +29,6 @@ public class BankBDDSession {
 		
 		this.userEmergency = "emergency";
 		this.passwdEmergency = "emergency";
-		
-		this.requetRecupAllAlertes = "SELECT * FROM Alertes";
 		
 	}
 	
@@ -72,11 +68,7 @@ public class BankBDDSession {
 	{
 		return this.passwdEmergency;
 	}
-
-	public String getRequetRecupAllAlertes() {
-		return this.requetRecupAllAlertes;
-	}
-	 
+	
 	
 
 }

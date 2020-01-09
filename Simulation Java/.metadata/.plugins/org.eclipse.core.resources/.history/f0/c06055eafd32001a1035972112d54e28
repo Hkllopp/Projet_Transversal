@@ -49,10 +49,6 @@ public class Feu {
 	{
 		this.taille.augmenterHauteur(augmentation);
 	}
-	public static void setNbFeu(int nbFeu) {
-		Feu.nbFeu = nbFeu;
-	}
-	
 	
 
 }
