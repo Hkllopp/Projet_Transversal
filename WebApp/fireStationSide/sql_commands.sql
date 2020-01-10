@@ -1,3 +1,7 @@
+--Pour se connecter à la BDD Caserne
+psql -U postgres -h localhost -d Caserne
+
+
 --Pour créer la BDD
 CREATE TABLE Capteurs(idCapteur integer, coordXCapteur integer, coordYCapteur integer, activation boolean,CONSTRAINT pk_capteurs PRIMARY KEY(idCapteur));
 CREATE TABLE Alertes(idAlerte integer, idCapteur integer, coordXFeu integer, coordYFeu integer, intensiteFeu integer,CONSTRAINT pk_Alertes PRIMARY KEY(idAlerte), CONSTRAINT fk_Alertes_Capteurs FOREIGN KEY (idCapteur) REFERENCES Capteurs(idCapteur));
