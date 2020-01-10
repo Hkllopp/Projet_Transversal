@@ -46,11 +46,6 @@ public class Simulation {
 			{
 				random = Math.random() * (MAX - MIN);
 				System.out.println(random);
-				
-				Alerte.recuperationAlerte(infoBDD.getRequetRecupAllAlertes());
-				listFeu = Alerte.generationFeu();
-				
-				
 				if(random < 250)
 				{
 				
@@ -70,9 +65,11 @@ public class Simulation {
 				{
 					for(int j = 0;j <listCamion.size(); j++)
 					{
+						System.out.println("pos camion"+listCamion.get(j).getPositionActuel().getLatitude());
+						System.out.println("pos camion"+listCamion.get(j).getPositionActuel().getLongitude());
 						if(listFeu.get(i).getPosition().equals(listCamion.get(j).getPositionActuel()))
 						{
-							listFeu.get(i).diminutionIntensiteFeu(5);
+							listFeu.get(i).diminutionIntensiteFeu(3);
 						}
 					}
 				}
@@ -92,7 +89,7 @@ public class Simulation {
 						{
 							if(Alerte.getNbAlerteSurFeu(listFeu.get(j)) > 0)
 							{
-								if(listFeu.get(j).getTaille().getHauteur() <= 0)
+								if(listFeu.get(j).getTaille().getHauteur() == 0)
 								{
 									Alerte.suppressionAlertePrecice(listFeu.get(j));
 								}
@@ -113,8 +110,7 @@ public class Simulation {
 				System.out.println(listFeu.size());
 				System.out.println(listCapteurs.size());
 				
-				TimeUnit.SECONDS.sleep(2);
-				Feu.setNbFeu(0);
+				TimeUnit.SECONDS.sleep(2);	
 			}
 			//SQLCapteur.closeStateResult();
 			//SQLCamion.closeStateResult();			

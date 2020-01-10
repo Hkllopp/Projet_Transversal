@@ -13,13 +13,6 @@ public class Feu {
 		this.taille = taille;
 		this.idFeu = nbFeu;
 	}
-	public Feu(int idFeu, Coordonnee position, Intensite taille)
-	{
-		nbFeu++;
-		this.position = position;
-		this.taille = taille;
-		this.idFeu = idFeu;
-	}
 	public int getIdFeu()
 	{
 		return this.idFeu;
@@ -49,10 +42,6 @@ public class Feu {
 	{
 		this.taille.augmenterHauteur(augmentation);
 	}
-	public static void setNbFeu(int nbFeu) {
-		Feu.nbFeu = nbFeu;
-	}
-	
 	
 
 }

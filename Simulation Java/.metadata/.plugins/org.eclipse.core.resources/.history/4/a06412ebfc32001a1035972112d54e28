@@ -48,11 +48,7 @@ public class SQLAlerte {
 															  +feu.getTaille().getHauteur()+")");
 		this.outil.insertionUpdateBDD();
 	}
-	public void recuperationAlerte(String requeteSQL)
-	{
-		this.outil.setRequeteSQL(requeteSQL);
-		this.outil.selectBDD();
-	}
+	
 	public ArrayList<Feu> generationFeu()
 	{
 		ArrayList<Feu> listFeu = new ArrayList<Feu>();	
@@ -61,9 +57,9 @@ public class SQLAlerte {
 			while(this.outil.getResultatSelect().next())
 		      {         
 		        listFeu.add(new Feu(this.outil.getResultatSelect().getInt("idalerte"),
-		        			new Coordonnee(this.outil.getResultatSelect().getInt("coordXfeu"),
-		        						this.outil.getResultatSelect().getInt("coordYfeu")),
-		        						new Intensite(this.outil.getResultatSelect().getInt("intensitefeu"))));
+		        		new Coordonnee(this.outil.getResultatSelect().getInt("coordXCapteur"),
+		        						this.outil.getResultatSelect().getInt("coordYCapteur")),
+		        						this.outil.getResultatSelect().getInt("intensitefeu")));
 		      }
 		} catch (Exception e) 
 		{
