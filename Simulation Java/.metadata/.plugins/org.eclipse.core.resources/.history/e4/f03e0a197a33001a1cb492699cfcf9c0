@@ -45,7 +45,7 @@ public class Simulation {
 			while(true)
 			{
 				random = Math.random() * (MAX - MIN);
-				//System.out.println(random);
+				System.out.println(random);
 				
 				Alerte.recuperationAlerte(infoBDD.getRequetRecupAllAlertes());
 				listFeu = Alerte.generationFeu();
@@ -104,7 +104,7 @@ public class Simulation {
 				}
 				
 				
-				TimeUnit.SECONDS.sleep(2);
+				TimeUnit.SECONDS.sleep(0);
 				Feu.setNbFeu(0);
 				SQLCapteur.fermetureResult();
 				SQLAlerte.fermetureResult();

@@ -45,7 +45,7 @@ public class Simulation {
 			while(true)
 			{
 				random = Math.random() * (MAX - MIN);
-				//System.out.println(random);
+				System.out.println(random);
 				
 				Alerte.recuperationAlerte(infoBDD.getRequetRecupAllAlertes());
 				listFeu = Alerte.generationFeu();

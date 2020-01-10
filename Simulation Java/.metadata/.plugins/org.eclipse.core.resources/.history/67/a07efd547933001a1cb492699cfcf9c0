@@ -45,7 +45,7 @@ public class Simulation {
 			while(true)
 			{
 				random = Math.random() * (MAX - MIN);
-				//System.out.println(random);
+				System.out.println(random);
 				
 				Alerte.recuperationAlerte(infoBDD.getRequetRecupAllAlertes());
 				listFeu = Alerte.generationFeu();
@@ -54,12 +54,15 @@ public class Simulation {
 				if(random < 250)
 				{
 				
-					Feu nouveauFeu = new Feu(new Coordonnee(Math.random() * 10, Math.random() * 10),
-											 new Intensite(10));
+					Feu nouveauFeu = new Feu(new Coordonnee(5,5), new Intensite(30));//new Coordonnee(Math.random() * 10, Math.random() * 10),
+											 //new Intensite(10));
+					//System.out.println("position feu" +nouveauFeu.getPosition().getLatitude()+"  "+nouveauFeu.getPosition().getLongitude());
 					listFeu.add(nouveauFeu);
 					
 				}
-							
+				
+				//Init camions
+				
 				camion.recuperationDonnee();
 				listCamion = camion.generationCamionSurZone();
 				
@@ -69,19 +72,22 @@ public class Simulation {
 					{
 						if(listFeu.get(i).getPosition().equals(listCamion.get(j).getPositionActuel()))
 						{
-							listFeu.get(i).diminutionIntensiteFeu(3);
+							listFeu.get(i).diminutionIntensiteFeu(5);
 						}
 					}
 				}
 				for(int i = 0;i < listFeu.size();i++)
 				{
-					listFeu.get(i).augmentationIntensiteFeu(1);
+					listFeu.get(i).augmentationIntensiteFeu(0);
+					//System.out.println(listFeu.get(i).getTaille().getHauteur());
 				}
 				
 				for(int i = 0;i < listCapteurs.size();i++)
 				{
+					//System.out.println("position capteur :" +listCapteurs.get(i).getPosition().getLatitude()+"  "+listCapteurs.get(i).getPosition().getLongitude());
 					for(int j = 0;j < listFeu.size();j++)
 					{
+						//System.out.println(Alerte.getNbAlerteSurFeu(listFeu.get(j)));
 						if(listCapteurs.get(i).getPosition().equals(listFeu.get(j).getPosition()))
 						{
 							if(Alerte.getNbAlerteSurFeu(listFeu.get(j)) > 0)
@@ -104,11 +110,11 @@ public class Simulation {
 				}
 				
 				
+				System.out.println(listFeu.size());
+				System.out.println(listCapteurs.size());
+				
 				TimeUnit.SECONDS.sleep(2);
 				Feu.setNbFeu(0);
-				SQLCapteur.fermetureResult();
-				SQLAlerte.fermetureResult();
-				SQLCamion.fermetureResult();
 			}
 			//SQLCapteur.closeStateResult();
 			//SQLCamion.closeStateResult();			

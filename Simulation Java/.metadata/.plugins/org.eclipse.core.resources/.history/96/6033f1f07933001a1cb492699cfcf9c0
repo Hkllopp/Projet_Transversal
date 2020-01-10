@@ -45,7 +45,7 @@ public class Simulation {
 			while(true)
 			{
 				random = Math.random() * (MAX - MIN);
-				//System.out.println(random);
+				System.out.println(random);
 				
 				Alerte.recuperationAlerte(infoBDD.getRequetRecupAllAlertes());
 				listFeu = Alerte.generationFeu();
@@ -54,8 +54,8 @@ public class Simulation {
 				if(random < 250)
 				{
 				
-					Feu nouveauFeu = new Feu(new Coordonnee(Math.random() * 10, Math.random() * 10),
-											 new Intensite(10));
+					Feu nouveauFeu = new Feu(new Coordonnee(5,5), new Intensite(10));//new Coordonnee(Math.random() * 10, Math.random() * 10),
+											 //new Intensite(10));
 					listFeu.add(nouveauFeu);
 					
 				}
@@ -106,9 +106,6 @@ public class Simulation {
 				
 				TimeUnit.SECONDS.sleep(2);
 				Feu.setNbFeu(0);
-				SQLCapteur.fermetureResult();
-				SQLAlerte.fermetureResult();
-				SQLCamion.fermetureResult();
 			}
 			//SQLCapteur.closeStateResult();
 			//SQLCamion.closeStateResult();			
