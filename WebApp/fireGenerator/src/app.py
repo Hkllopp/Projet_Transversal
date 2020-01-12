@@ -15,6 +15,10 @@ On lance l'app python avec : uwsgi --http 127.0.0.1:8000 --wsgi-file ./src/app.p
 clear && uwsgi --socket 127.0.0.1:3031 --plugin python --wsgi-file ./src/app.py --callable app_dispatch --stats 127.0.0.1:9191
 On lance la bdd avec psql -U postgres -h localhost
 Le mot de passe est "superuser"
+
+
+Pour créer l'exeutable à partir du fichier spec :
+pyinstaller --onefile -F app.spec
 """
 
 

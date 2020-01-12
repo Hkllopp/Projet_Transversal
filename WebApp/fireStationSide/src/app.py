@@ -2,7 +2,11 @@
 
 
 from flask import Flask, jsonify, abort, make_response, render_template, request
+<<<<<<< HEAD
 import psycopg2,re, numpy
+=======
+import psycopg2,re
+>>>>>>> master
 from influxdb import InfluxDBClient
 
 
@@ -29,6 +33,9 @@ Les packages du venv:
     - Psycopg2 pour se connecter à la base Postgresql
     - InfluxDB-Python is a client for interacting with InfluxDB https://influxdb-python.readthedocs.io/en/latest/include-readme.html#examples https://v2.docs.influxdata.com/v2.0/write-data/#user-interface
     - uwsgi qui permet à l'SS de se connecter avec l'API python https://github.com/prometheus/client_python#flask
+
+Pour créer l'exeutable à partir du fichier spec :
+pyinstaller --onefile -F app.spec
 """
 
 app = Flask(__name__)
