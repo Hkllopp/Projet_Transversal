@@ -15,12 +15,13 @@ public class connectionBDDTest {
 		
 		//CTRL + SHIFT + O pour générer les imports   
 		    try {
+		    	
 		      Class.forName("org.postgresql.Driver");
 		      System.out.println("Driver O.K.");
 
 		      String url = "jdbc:postgresql://localhost:5432/Simulation_feux";
-		      String user = "simu_feux";
-		      String passwd = "simu_feux";
+		      String user = "simu_camions";
+		      String passwd = "simu_camions";
 
 		      Connection conn = DriverManager.getConnection(url, user, passwd);
 		         
@@ -30,27 +31,31 @@ public class connectionBDDTest {
 		      //state.executeUpdate("INSERT into feux(localisation, intensite) values('(46,23)',3)");
 		      //state.executeUpdate("INSERT into camions(position_actuel, statut) values('(0,0)','en attente')");
 		      //ResultSet result = state.executeQuery("SELECT * FROM capteurs");
-		      ResultSet result = state.executeQuery("SELECT count(idAlerte) FROM Alertes WHERE idAlerte =" +4);
+		      ResultSet result = state.executeQuery("SELECT * FROM Alertes WHERE coordxfeu = 5 and coordyfeu = 0");
 		      //On récupère les MetaData
-		      //ResultSetMetaData resultMeta = result.getMetaData();
+		      ResultSetMetaData resultMeta = result.getMetaData();
+		      System.out.println(result.next());
 		         
-		      //System.out.println("\n**********************************");
+		      System.out.println("\n**********************************");
 		      //On affiche le nom des colonnes
-		      //for(int i = 1; i <= resultMeta.getColumnCount(); i++)
-		       //System.out.print("\t" + resultMeta.getColumnName(i).toUpperCase() + "\t *");
+		      for(int i = 1; i <= resultMeta.getColumnCount(); i++)
+		       System.out.print("\t" + resultMeta.getColumnName(i).toUpperCase() + "\t *");
 		         
-		      //System.out.println("\n**********************************");
+		      System.out.println("\n**********************************");
 		         
-		      //while(result.next()){         
-		        //for(int i = 1; i <= resultMeta.getColumnCount(); i++)
-		          //System.out.print("\t" + result.getObject(i).toString() + "\t |");
+		      while(result.next()){         
+		        for(int i = 1; i <= resultMeta.getColumnCount(); i++)
+		          System.out.print("\t" + result.getObject(i).toString() + "\t |");
 		            
-		        //System.out.println("\n---------------------------------");
+		        System.out.println("\n---------------------------------");
 
-		     // }
-		      result.next();
-		      System.out.println((int)result.getInt("count"));
-
+		      }
+		      
+		      //System.out.println(result.next());
+		      //System.out.println((int)result.getInt("intensitefeu"));
+		      Camion camion = new Camion(statutCamion.valueOf("aller"));
+		      
+		      System.out.println(camion.getStatut() == statutCamion.valueOf("aller"));
 		      result.close();
 		      state.close();        
 		         

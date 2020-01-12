@@ -9,4 +9,9 @@
     <fullyQualifiedTypeName name="java.util.Collections"/>
     <fullyQualifiedTypeName name="Emergency.BankBDDSession"/>
     <fullyQualifiedTypeName name="Emergency.statutCamion"/>
+    <fullyQualifiedTypeName name="SimulationCamions.Coordonnee"/>
+    <fullyQualifiedTypeName name="SimulationCamions.RequeteBDD"/>
+    <fullyQualifiedTypeName name="SimulationCamions.SQLCamion"/>
+    <fullyQualifiedTypeName name="connectionBDDTest.statutCamion"/>
+    <fullyQualifiedTypeName name="SimulationCamions.statutCamion"/>
 </qualifiedTypeNameHistroy>

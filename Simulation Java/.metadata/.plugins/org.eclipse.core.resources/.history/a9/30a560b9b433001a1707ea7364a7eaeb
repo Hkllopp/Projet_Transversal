@@ -1,0 +1,55 @@
+package SimulationCamions;
+
+import java.util.ArrayList;
+
+public class SimulationC {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		BankBDDSession bankRequeteLoginBDD = new BankBDDSession();
+		ArrayList<Camion> listCamion;
+		
+		SessionBDD BDDEmergency = new SessionBDD(bankRequeteLoginBDD.getURLSessionEmergency(),
+				bankRequeteLoginBDD.getpasswdSimuCamion(),
+				bankRequeteLoginBDD.getpasswdSimuCamion());
+		
+		SessionBDD BDDsimulation_Camion = new SessionBDD(bankRequeteLoginBDD.getURLSessionSimulationCamions(),
+				bankRequeteLoginBDD.getpasswdSimuCamion(),
+				bankRequeteLoginBDD.getpasswdSimuCamion());
+
+		RequeteBDD SQLCamionIntervention = new RequeteBDD(BDDEmergency.getConnect());
+		SQLCamion camionsIntervention = new SQLCamion(SQLCamionIntervention);//Generation outil de requete Intervention BDD Emergency
+		
+		RequeteBDD SQLCamionSimuCamion = new RequeteBDD(BDDsimulation_Camion.getConnect());
+		SQLCamion camionsSimuCamion = new SQLCamion(SQLCamionSimuCamion);//Generation outil de requete Camion BDD Simu camion
+		
+		
+		
+		//while(true)
+		//{
+			
+			camionsSimuCamion.recuperationCamion(bankRequeteLoginBDD.getRecupCamion());
+			listCamion = camionsSimuCamion.generationCamion();
+			
+			camionsIntervention.recuperationCamion(bankRequeteLoginBDD.getRequeteInterventionCamionEmergency());
+			camionsIntervention.generationNouveauCamion(listCamion);
+			
+			System.out.println(listCamion.isEmpty());
+			
+			for(int i = 0; i < listCamion.size(); i++)
+			{
+				
+				System.out.println(listCamion.get(i).getIdCamion());
+			}
+			
+			
+			
+			
+		
+		
+		
+		//}
+		
+	}
+
+}

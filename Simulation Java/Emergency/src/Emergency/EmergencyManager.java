@@ -1,7 +1,6 @@
 package Emergency;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
 public class EmergencyManager {
@@ -91,7 +90,7 @@ public class EmergencyManager {
 			for(int j = 0; j < listInterventions.size(); j++)//On parcours la liste des interventions
 			{
 				
-				camionsSimuCamion.setRequeteCamionIntervention(listInterventions.get(j));//On parcours la liste des camions associé à cette intervention mais sur la BDD simu camion mais qui sont pret à rentrer en caserne
+				camionsSimuCamion.setRequeteCamionIntervention(listInterventions.get(j));//On parcours la liste des camions associé à cette intervention sur la BDD simu camion mais qui sont pret à rentrer en caserne
 				
 				if(!(camionsSimuCamion.generationCamion().isEmpty()))//Si jamais ya des camions pret à rentrer
 				{
@@ -108,7 +107,7 @@ public class EmergencyManager {
 			SQLCamionSimuCamion.fermetureResult();
 			SQLIntervention.fermetureResult();
 			
-			//TimeUnit.SECONDS.sleep(2);
+			TimeUnit.SECONDS.sleep(2);
 			
 		}
 	}

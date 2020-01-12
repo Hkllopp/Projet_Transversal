@@ -1,0 +1,157 @@
+package SimulationCamions;
+
+import java.util.ArrayList;
+
+
+public class SQLCamion 
+{
+	
+	private RequeteBDD outil;
+	private String requeteCamionIntervention;
+	
+	public SQLCamion(RequeteBDD outil)
+	{
+		this.outil = outil;
+	}
+	
+	public String getRequeteCamionIntervention() 
+	{
+		return this.requeteCamionIntervention;
+	}
+	public void setRequeteCamionIntervention(Intervention intervention) 
+	{
+		this.requeteCamionIntervention = "SELECT * FROM camions WHERE idCamion = "+intervention.getCamion().getIdCamion()+
+																				" AND statut = "+statutCamion.valueOf("enAttenteCaserne");
+	}
+	
+	public void recuperationCamion(String requeteSQL)
+	{
+		this.outil.setRequeteSQL(requeteSQL);
+		this.outil.selectBDD();
+	}
+	
+	public void updateInsertDeleteCamion(String requeteSQL, Camion camion)
+	{
+		this.outil.setRequeteSQL(requeteSQL +"'" +camion.getIdCamion()+"'");
+		this.outil.insertionUpdateDeleteBDD();
+	}
+	
+	public void updateInsertDeleteCamion(String requeteSQL)
+	{
+		this.outil.setRequeteSQL(requeteSQL);
+		this.outil.insertionUpdateDeleteBDD();
+	}
+	public ArrayList<Camion> generationCamion()
+	{
+		ArrayList<Camion> listCamions = new ArrayList<Camion>();	
+		try
+		{
+			while(this.outil.getResultatSelect().next())
+		      {         
+		        listCamions.add(new Camion(this.outil.getResultatSelect().getString("idCamion"),
+		        		new Coordonnee(this.outil.getResultatSelect().getInt("coordonneeactuelxcamion"),
+						this.outil.getResultatSelect().getInt("coordonneeactuelycamion")),
+		        		new Coordonnee(this.outil.getResultatSelect().getInt("coordonneeDepartxcamion"),
+		        						this.outil.getResultatSelect().getInt("coordonneeDepartycamion")),
+		        		new Coordonnee(this.outil.getResultatSelect().getInt("coordonneeDestinationxcamion"),
+		        						this.outil.getResultatSelect().getInt("coordonneeDestinationycamion")),
+		        		statutCamion.valueOf(this.outil.getResultatSelect().getString("statut"))));
+		        						
+		      }
+		} catch (Exception e) 
+		{
+			e.printStackTrace();
+		}					
+		return listCamions;
+	}
+	
+	public ArrayList<Camion> generationNouveauCamion(ArrayList<Camion> listCamions)
+	{	
+		int nbOccurenceCamion;
+		Camion camionTmp;
+		ArrayList<Camion> listCamionsNouveau = new ArrayList<Camion>();
+		try
+		{
+			while(this.outil.getResultatSelect().next())
+		      {
+				nbOccurenceCamion = 0;
+				
+				for(int i = 0; i < listCamions.size(); i++)
+				{
+					if(listCamions.get(i).getIdCamion().equals(this.outil.getResultatSelect().getString("idCamion")))
+					{
+						nbOccurenceCamion++;
+					}
+				}
+				System.out.println(nbOccurenceCamion);
+				if(nbOccurenceCamion == 0)
+				{
+					System.out.println("Lol");
+					camionTmp = new Camion(this.outil.getResultatSelect().getString("idCamion"),
+			        		new Coordonnee(this.outil.getResultatSelect().getInt("coordcasernex"),
+	        						this.outil.getResultatSelect().getInt("coordcaserney")),
+	        		new Coordonnee(this.outil.getResultatSelect().getInt("coordxfeu"),
+	        						this.outil.getResultatSelect().getInt("coordyfeu")),
+	        		statutCamion.valueOf("aller"));
+					
+					listCamionsNouveau.add(camionTmp);
+					listCamions.add(camionTmp);
+				
+					
+				}    						
+		      }
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return listCamionsNouveau;
+	}
+	
+	public void inserstionlistCamion(ArrayList<Camion> listCamions)
+	{
+		for(int i = 0; i < listCamions.size(); i++)
+		{
+			updateInsertDeleteCamion("INSERT INTO camions VALUES('"+listCamions.get(i).getIdCamion()+"', "
+					+listCamions.get(i).getCoordonneeDepart().getLatitude()+", "+listCamions.get(i).getCoordonneeDepart().getLongitude()+", "
+					+listCamions.get(i).getCoordonneeDepart().getLatitude()+", "+listCamions.get(i).getCoordonneeDepart().getLongitude()+", "
+					+listCamions.get(i).getCoordonneeDestination().getLatitude()+", "+listCamions.get(i).getCoordonneeDestination().getLongitude()+", '"
+					+listCamions.get(i).getStatut()+"')");
+		}
+	}
+	
+	public int recuperationIntensiteFeuCamion(Camion camion)
+	{
+		
+		this.recuperationCamion("SELECT intensite FROM Alertes WHERE coordxfeu = "
+								+camion.getPositionActuel().getLatitude()+" AND coordyfeu = "
+								+camion.getPositionActuel().getLongitude());
+		int intensiteFeu;
+		try
+		{
+			if(this.outil.getResultatSelect().next())
+		    {
+				if(this.outil.getResultatSelect().getInt("IntensiteFeu") == 0)
+				{
+					intensiteFeu = 0;
+				}
+			}
+			else
+			{
+				intensiteFeu = 0;
+			}
+		      
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		return intensiteFeu;
+	}
+	
+}
+
+/*this.updateInsertDeleteCamion("INSERT INTO camions VALUES('"+camionTmp.getIdCamion()+"', "
+		+camionTmp.getCoordonneeDepart().getLatitude()+", "+camionTmp.getCoordonneeDepart().getLongitude()+", "
+		+camionTmp.getCoordonneeDepart().getLatitude()+", "+camionTmp.getCoordonneeDepart().getLongitude()+", "
+		+camionTmp.getCoordonneeDestination().getLatitude()+", "+camionTmp.getCoordonneeDestination().getLongitude()+", '"
+		+camionTmp.getStatut()+"')");*/

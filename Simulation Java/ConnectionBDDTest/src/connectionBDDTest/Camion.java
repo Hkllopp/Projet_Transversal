@@ -1,0 +1,25 @@
+package connectionBDDTest;
+
+public class Camion {
+	private String idCamion;
+	//private String idCaserne;
+
+	private statutCamion statut;
+	
+	public Camion()
+	{
+		
+		this.statut = statutCamion.disponible;
+	}
+	public Camion(statutCamion statut)
+	{
+	
+		this.statut = statut;
+	}
+	
+	public statutCamion getStatut() {
+		return this.statut;
+	}
+	
+	
+}
